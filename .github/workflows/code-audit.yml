@@ -1,0 +1,145 @@
+name: 🔍 Code Health Audit
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  code-audit:
+    name: Full Repository Health Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 🔧 Install Dependencies
+        run: npm ci
+
+      - name: 📁 Create Reports Directory
+        run: mkdir -p reports
+
+      # Step 1: Static Analysis & Lint
+      - name: 🔍 ESLint Analysis
+        run: |
+          npx eslint "**/*.{ts,tsx,js}" --ext .ts,.tsx --max-warnings 0 --format json --output-file reports/eslint-report.json || true
+          npx eslint "**/*.{ts,tsx,js}" --ext .ts,.tsx --max-warnings 0 || echo "ESLint found issues"
+
+      - name: 🔍 TypeScript Build Check
+        run: |
+          npx tsc -b > reports/typescript-errors.txt 2>&1 || echo "TypeScript errors found"
+
+      # Step 2: Duplicate/Unused Code Scan
+      - name: 🔄 Circular Dependencies Check
+        run: |
+          npx madge --extensions ts,tsx --circular . > reports/circular-deps.txt 2>&1 || echo "Circular dependency check completed"
+
+      - name: 🗑️ Unused Exports Detection
+        run: |
+          npx ts-unused-exports ./client/tsconfig.json --exitWithCount > reports/unused-exports.txt 2>&1 || echo "Unused exports check completed"
+
+      # Step 3: Complexity Analysis
+      - name: 📊 Code Complexity Analysis
+        run: |
+          npx plato -r -d reports/plato client/src server/src shared/src 2>/dev/null || echo "Complexity analysis completed"
+
+      # Step 4: Security Audit
+      - name: 🔒 npm Security Audit
+        run: |
+          npm audit --omit dev --json > reports/npm-audit.json 2>&1 || echo "npm audit completed"
+
+      - name: 🔒 Snyk Security Scan
+        continue-on-error: true
+        run: |
+          npx snyk test --all-projects --json > reports/snyk-security.json 2>&1 || echo "Snyk scan completed (auth may be required)"
+
+      # Step 5: Test Coverage
+      - name: 🧪 Run Tests with Coverage
+        run: |
+          npm run test --workspace=client -- --run --coverage --reporter=json > reports/test-results.json 2>&1 || echo "Test run completed"
+
+      # Step 6: Performance Check (Client Build)
+      - name: 🚀 Client Build Performance
+        run: |
+          npm run build --workspace=client || echo "Build check completed"
+        continue-on-error: true
+
+      # Step 7: Generate Audit Summary
+      - name: 📋 Generate Audit Summary
+        run: |
+          echo "# 🔍 Code Audit Summary" > reports/audit-summary.md
+          echo "**Date:** $(date)" >> reports/audit-summary.md
+          echo "**Commit:** ${{ github.sha }}" >> reports/audit-summary.md
+          echo "" >> reports/audit-summary.md
+          
+          echo "## 📊 Quick Stats" >> reports/audit-summary.md
+          echo "- **Files processed:** $(find . -name '*.ts' -o -name '*.tsx' | wc -l)" >> reports/audit-summary.md
+          echo "- **TypeScript errors:** $(grep -c "error TS" reports/typescript-errors.txt 2>/dev/null || echo "0")" >> reports/audit-summary.md
+          echo "- **Circular dependencies:** $(grep -c "Circular" reports/circular-deps.txt 2>/dev/null || echo "0")" >> reports/audit-summary.md
+          echo "- **Unused exports:** $(grep -c "modules with unused exports" reports/unused-exports.txt 2>/dev/null || echo "0")" >> reports/audit-summary.md
+          
+          echo "" >> reports/audit-summary.md
+          echo "## 🔗 Detailed Reports" >> reports/audit-summary.md
+          echo "- TypeScript errors: See typescript-errors.txt" >> reports/audit-summary.md
+          echo "- Code complexity: See plato/index.html" >> reports/audit-summary.md
+          echo "- Security audit: See npm-audit.json" >> reports/audit-summary.md
+          echo "- Test coverage: See test-results.json" >> reports/audit-summary.md
+
+      # Upload audit artifacts
+      - name: 📤 Upload Audit Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: code-audit-reports-${{ github.run_number }}
+          path: reports/
+          retention-days: 30
+
+      # Add PR comment with audit summary
+      - name: 💬 Comment Audit Results on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let summary = '';
+            try {
+              summary = fs.readFileSync('reports/audit-summary.md', 'utf8');
+            } catch (e) {
+              summary = '⚠️ Audit summary could not be generated';
+            }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🔍 Code Health Audit Results\n\n${summary}\n\n📁 **Full audit reports available in workflow artifacts**`
+            });
+
+      # Fail if critical issues found
+      - name: ❌ Fail on Critical Issues
+        run: |
+          # Check for TypeScript errors
+          if grep -q "error TS" reports/typescript-errors.txt 2>/dev/null; then
+            echo "❌ Critical: TypeScript compilation errors found"
+            exit 1
+          fi
+          
+          # Check for high/critical security vulnerabilities in production
+          if jq -e '.metadata.vulnerabilities.high > 0 or .metadata.vulnerabilities.critical > 0' reports/npm-audit.json 2>/dev/null; then
+            echo "❌ Critical: High or critical security vulnerabilities found in production dependencies"
+            exit 1
+          fi
+          
+          echo "✅ No critical issues found" 
