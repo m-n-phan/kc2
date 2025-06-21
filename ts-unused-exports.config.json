@@ -1,0 +1,6 @@
+{
+  "ignoreFiles": [
+    "**/*.stories.tsx",
+    "**/*.stories.ts"
+  ]
+} 

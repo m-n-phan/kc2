@@ -12,6 +12,9 @@ const config: Config = {
           orange: '#FB6500',
           DEFAULT: '#FB6500',
         },
+        brand: {
+          orange: '#FB6500',
+        },
         charcoal: '#111827',
         destructive: '#DC2626',
         hover: '#F3F4F6',
@@ -25,7 +28,8 @@ const config: Config = {
           200: '#E5E7EB',
           100: '#F3F4F6',
           50: '#F9FAFB',
-        }
+        },
+        divider: '#E5E7EB',  // slate-200 for lighter dividers
       },
       fontFamily: {
         sans: ['Inter', 'SF Pro Display', 'system-ui', 'sans-serif'],
@@ -42,6 +46,9 @@ const config: Config = {
         '4': '16px',  // 16pt
         '6': '24px',  // 24pt
         '8': '32px',  // 32pt
+        'section': '24px',  // Standard section spacing
+        'brand-gap': '8px',  // Logo to text spacing
+        'wizard-gap': '24px',  // Wizard step spacing
       },
       boxShadow: {
         'focus': '0 0 0 2px #3B82F6',
@@ -59,6 +66,11 @@ const config: Config = {
       },
       minHeight: {
         'touch-target': '44px',
+        'touch': '44px',
+      },
+      minWidth: {
+        'touch-target': '44px',
+        'touch': '44px',
       },
       width: {
         'sidebar-collapsed': '56px',

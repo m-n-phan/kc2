@@ -15,6 +15,8 @@ describe('Card', () => {
     expect(card).toBeInTheDocument()
     expect(card).toHaveClass('card-base')
     expect(card).toHaveClass('hover:shadow-md')
+    expect(card).not.toHaveAttribute('role')
+    expect(card).not.toHaveAttribute('tabIndex')
   })
 
   it('renders children correctly', () => {
@@ -34,6 +36,7 @@ describe('Card', () => {
     const card = screen.getByTestId('hoverable-card')
     
     expect(card).toHaveClass('hover:shadow-md')
+    expect(card).toHaveClass('transition-shadow')
   })
 
   it('disables hover effect when hover prop is false', () => {
@@ -59,25 +62,22 @@ describe('Card', () => {
     expect(ref).toHaveBeenCalled()
   })
 
-  it('supports all div HTML attributes', () => {
+  it('becomes interactive when onClick is provided', () => {
+    const handleClick = vi.fn()
     render(
-      <Card 
-        id="test-card"
-        role="article"
-        data-testid="card-component"
-        aria-label="Test card"
-      >
-        Card with attributes
+      <Card onClick={handleClick} data-testid="interactive-card">
+        Interactive Card
       </Card>
     )
-    const card = screen.getByTestId('card-component')
+    const card = screen.getByTestId('interactive-card')
     
-    expect(card).toHaveAttribute('id', 'test-card')
-    expect(card).toHaveAttribute('role', 'article')
-    expect(card).toHaveAttribute('aria-label', 'Test card')
+    expect(card).toHaveAttribute('role', 'button')
+    expect(card).toHaveAttribute('tabIndex', '0')
+    expect(card).toHaveClass('cursor-pointer')
+    expect(card).toHaveClass('focus:ring-2')
   })
 
-  it('handles click events', () => {
+  it('handles click events correctly', () => {
     const handleClick = vi.fn()
     render(
       <Card onClick={handleClick} data-testid="clickable-card">
@@ -89,11 +89,65 @@ describe('Card', () => {
     fireEvent.click(card)
     
     expect(handleClick).toHaveBeenCalledTimes(1)
+    expect(handleClick).toHaveBeenCalledWith(expect.objectContaining({
+      type: 'click'
+    }))
+  })
+
+  it('handles keyboard events (Enter and Space)', () => {
+    const handleClick = vi.fn()
+    render(
+      <Card onClick={handleClick} data-testid="keyboard-card">
+        Keyboard Card
+      </Card>
+    )
+    const card = screen.getByTestId('keyboard-card')
+    
+    // Test Enter key
+    fireEvent.keyDown(card, { key: 'Enter' })
+    expect(handleClick).toHaveBeenCalledTimes(1)
+    
+    // Test Space key
+    fireEvent.keyDown(card, { key: ' ' })
+    expect(handleClick).toHaveBeenCalledTimes(2)
+    
+    // Test other keys don't trigger click
+    fireEvent.keyDown(card, { key: 'Escape' })
+    expect(handleClick).toHaveBeenCalledTimes(2)
+  })
+
+  it('supports explicit interactive prop', () => {
+    render(
+      <Card interactive data-testid="explicit-interactive">
+        Explicitly Interactive Card
+      </Card>
+    )
+    const card = screen.getByTestId('explicit-interactive')
+    
+    expect(card).toHaveAttribute('role', 'button')
+    expect(card).toHaveAttribute('tabIndex', '0')
+    expect(card).toHaveClass('cursor-pointer')
+  })
+
+  it('supports all div HTML attributes', () => {
+    render(
+      <Card 
+        id="test-card"
+        data-testid="card-component"
+        aria-label="Test card"
+      >
+        Card with attributes
+      </Card>
+    )
+    const card = screen.getByTestId('card-component')
+    
+    expect(card).toHaveAttribute('id', 'test-card')
+    expect(card).toHaveAttribute('aria-label', 'Test card')
   })
 
   it('renders complex content correctly', () => {
     render(
-      <Card>
+      <Card data-testid="complex-card">
         <div className="p-6">
           <h3 className="text-lg font-semibold mb-2">Complex Card</h3>
           <p className="text-slate-600 mb-4">This is a more complex card example.</p>
@@ -123,5 +177,36 @@ describe('Card', () => {
     
     expect(card).toBeInTheDocument()
     expect(card).toHaveClass('card-base')
+  })
+
+  it('combines hover and interactive states correctly', () => {
+    const handleClick = vi.fn()
+    render(
+      <Card onClick={handleClick} hover={false} data-testid="interactive-no-hover">
+        Interactive but no hover
+      </Card>
+    )
+    const card = screen.getByTestId('interactive-no-hover')
+    
+    expect(card).toHaveAttribute('role', 'button')
+    expect(card).not.toHaveClass('hover:shadow-md')
+    expect(card).toHaveClass('cursor-pointer')
+  })
+
+  it('forwards custom onKeyDown handler', () => {
+    const handleClick = vi.fn()
+    const handleKeyDown = vi.fn()
+    
+    render(
+      <Card onClick={handleClick} onKeyDown={handleKeyDown} data-testid="custom-keydown">
+        Custom KeyDown
+      </Card>
+    )
+    const card = screen.getByTestId('custom-keydown')
+    
+    fireEvent.keyDown(card, { key: 'Escape' })
+    
+    expect(handleKeyDown).toHaveBeenCalledTimes(1)
+    expect(handleClick).not.toHaveBeenCalled()
   })
 }) 

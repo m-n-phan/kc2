@@ -1,0 +1,47 @@
+{
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "copyToClipboard": false,
+    "includeEmptyDirectories": false
+  },
+  "include": [
+    "**/*.{ts,tsx,js,jsx,json,md,yml,yaml}",
+    "package.json",
+    "tsconfig.json",
+    ".github/workflows/**",
+    "*.config.{js,ts}",
+    "README.md",
+    "ARCH_MAP.md"
+  ],
+  "ignore": {
+    "useGitignore": true,
+    "useDefaultPatterns": true,
+    "customPatterns": [
+      "**/node_modules/**",
+      "**/dist/**", 
+      "**/build/**",
+      "**/.turbo/**",
+      "**/coverage/**",
+      "**/reports/**",
+      "**/*.log",
+      "**/*.tsbuildinfo",
+      "**/package-lock.json",
+      "**/yarn.lock",
+      "**/pnpm-lock.yaml",
+      "repomix-output.xml",
+      "**/.DS_Store",
+      "**/.vscode/**",
+      "**/.idea/**",
+      "**/*.js.map",
+      "**/*.d.ts.map",
+      "**/storybook-static/**",
+      "**/.eslintrc.js",
+      "**/vitest.config.d.ts",
+      "**/vite.config.d.ts"
+    ]
+  },
+  "security": {
+    "enableSecurityCheck": true
+  }
+} 

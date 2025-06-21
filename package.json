@@ -2,6 +2,7 @@
   "name": "kitchencoach-2.0",
   "version": "1.0.0",
   "description": "Restaurant training, safety, and compliance platform - responsive web + iPad PWA",
+  "type": "module",
   "private": true,
   "workspaces": [
     "client",
@@ -16,23 +17,29 @@
     "build:client": "npm run build --workspace=client",
     "build:server": "npm run build --workspace=server",
     "test": "npm run test --workspace=client && npm run test --workspace=server",
+    "test:coverage": "npm run test -- --coverage --workspace=client",
     "lint": "npm run lint --workspace=client && npm run lint --workspace=server",
-    "type-check": "npm run type-check --workspace=client && npm run type-check --workspace=server"
+    "lint:fix": "npm run lint -- --fix --workspace=client && npm run lint -- --fix --workspace=server",
+    "type-check": "npm run type-check --workspace=client && npm run type-check --workspace=server",
+    "quality-check": "npm run lint && npm run type-check && npm run test && npm run audit:prod",
+    "audit:prod": "npm audit --audit-level moderate --omit dev",
+    "clean": "npm run clean --workspace=client && npm run clean --workspace=server && rm -rf reports/",
+    "fresh-install": "npm run clean && rm -rf node_modules */node_modules && npm ci",
+    "build-storybook": "npm run build-storybook --workspace=client"
   },
   "devDependencies": {
     "@axe-core/cli": "^4.10.2",
     "@eslint/js": "^9.29.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "axe-core": "^4.10.3",
     "concurrently": "^8.2.2",
-    "eslint": "^9.29.0",
+    "eslint": "^8.57.0",
     "lighthouse": "^12.6.1",
     "madge": "^8.0.0",
-    "plato": "^1.7.0",
     "snyk": "^1.1297.2",
     "ts-unused-exports": "^11.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">=18.0.0",

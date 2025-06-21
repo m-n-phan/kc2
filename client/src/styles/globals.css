@@ -1,3 +1,6 @@
+/* Import component-specific styles */
+@import './components.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -57,50 +60,5 @@
   #root,
   #__next {
     isolation: isolate;
-  }
-
-  /* Focus Ring System */
-  .focus-ring {
-    @apply outline-none ring-2 ring-focus ring-offset-2 ring-offset-white;
-  }
-
-  .focus-ring-inset {
-    @apply outline-none ring-2 ring-inset ring-focus;
-  }
-
-  /* Interactive States */
-  .btn-base {
-    @apply transition-all duration-150 ease-in-out;
-    @apply focus-visible:focus-ring;
-    @apply active:shadow-active;
-  }
-
-  .card-base {
-    @apply bg-white border border-slate-200 rounded-lg shadow-sm;
-    @apply transition-shadow duration-200;
-  }
-}
-
-@layer components {
-  /* Touch Target Utilities */
-  .touch-target {
-    @apply min-h-touch-target min-w-touch-target;
-  }
-
-  /* Typography Scale */
-  .text-h1 {
-    @apply text-h1 font-semibold text-charcoal leading-tight;
-  }
-
-  .text-h2 {
-    @apply text-h2 font-medium text-charcoal leading-snug;
-  }
-
-  .text-h3 {
-    @apply text-h3 font-medium text-charcoal leading-normal;
-  }
-
-  .text-body {
-    @apply text-body text-slate-700 leading-relaxed;
   }
 } 

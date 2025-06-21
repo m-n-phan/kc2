@@ -1,0 +1,44 @@
+@layer components {
+  /* Interactive Base Classes */
+  .btn-base {
+    @apply transition-all duration-150 ease-in-out;
+    @apply focus-visible:focus-ring;
+    @apply active:shadow-active;
+  }
+
+  .card-base {
+    @apply bg-white border border-slate-200 rounded-lg shadow-sm;
+    @apply transition-shadow duration-200;
+  }
+
+  /* Touch Target Utilities */
+  .touch-target {
+    @apply min-h-touch-target min-w-touch-target;
+  }
+
+  /* Typography Scale */
+  .text-h1 {
+    @apply text-[28px] font-semibold text-charcoal leading-tight;
+  }
+
+  .text-h2 {
+    @apply text-[20px] font-medium text-charcoal leading-snug;
+  }
+
+  .text-h3 {
+    @apply text-[18px] font-medium text-charcoal leading-normal;
+  }
+
+  .text-body {
+    @apply text-[16px] text-slate-700 leading-relaxed;
+  }
+
+  /* Focus Ring System */
+  .focus-ring {
+    @apply outline-none ring-2 ring-focus ring-offset-2 ring-offset-white;
+  }
+
+  .focus-ring-inset {
+    @apply outline-none ring-2 ring-inset ring-focus;
+  }
+} 

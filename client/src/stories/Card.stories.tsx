@@ -82,25 +82,26 @@ export const StatsCard: Story = {
 
 export const CardGrid: Story = {
   args: {
-    children: (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl">
-        <Card className="p-4">
-          <h4 className="font-semibold mb-2">Simple Card</h4>
-          <p className="text-sm text-slate-600">Basic card content</p>
-        </Card>
-        <Card className="p-4">
-          <div className="flex items-center justify-between mb-2">
-            <h4 className="font-semibold">Status Card</h4>
-            <Badge variant="warning">Pending</Badge>
-          </div>
-          <p className="text-sm text-slate-600">Card with status badge</p>
-        </Card>
-        <Card className="p-4">
-          <h4 className="font-semibold mb-2">Action Card</h4>
-          <p className="text-sm text-slate-600 mb-3">Card with action button</p>
-          <Button size="sm" variant="secondary">View Details</Button>
-        </Card>
-      </div>
-    ),
+    children: <div>Placeholder</div>
   },
+  render: () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl">
+      <Card className="p-4">
+        <h4 className="font-semibold mb-2">Simple Card</h4>
+        <p className="text-sm text-slate-600">Basic card content</p>
+      </Card>
+      <Card className="p-4">
+        <div className="flex items-center justify-between mb-2">
+          <h4 className="font-semibold">Status Card</h4>
+          <Badge variant="warning">Pending</Badge>
+        </div>
+        <p className="text-sm text-slate-600">Card with status badge</p>
+      </Card>
+      <Card className="p-4">
+        <h4 className="font-semibold mb-2">Action Card</h4>
+        <p className="text-sm text-slate-600 mb-3">Card with action button</p>
+        <Button size="sm" variant="secondary">View Details</Button>
+      </Card>
+    </div>
+  ),
 } 
