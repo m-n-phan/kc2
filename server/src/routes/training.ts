@@ -40,7 +40,7 @@ router.get('/modules', async (_req, res, next) => {
     const modules = await service.getModules()
     res.json({ success: true, data: modules })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -52,7 +52,7 @@ router.get('/modules/:id', async (req, res, next) => {
     }
     res.json({ success: true, data: module })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -61,8 +61,6 @@ router.post('/modules', async (req, res, next) => {
     const validated = createModuleSchema.parse(req.body) as CreateTrainingModuleRequest & {
       status?: string
     }
-
-    const validated = createModuleSchema.parse(req.body)
     const createdBy = (req.headers['x-user-id'] as string) || 'system'
     const module = await service.createModule(validated, createdBy)
     res.status(201).json({ success: true, data: module })
@@ -70,15 +68,13 @@ router.post('/modules', async (req, res, next) => {
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
 router.put('/modules/:id', async (req, res, next) => {
   try {
     const validated = createModuleSchema.partial().parse(req.body) as UpdateTrainingModuleRequest
-
-    const validated = createModuleSchema.partial().parse(req.body)
     const module = await service.updateModule(req.params.id, validated)
     if (!module) {
       return res.status(404).json({ success: false, error: 'Training module not found' })
@@ -88,7 +84,7 @@ router.put('/modules/:id', async (req, res, next) => {
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -99,8 +95,8 @@ router.delete('/modules/:id', async (req, res, next) => {
       return res.status(404).json({ success: false, error: 'Training module not found' })
     }
     res.json({ success: true, message: 'Training module deleted successfully' })
-  } catch (err) {
-    next(err)
+ } catch (err) {
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -114,7 +110,7 @@ router.post('/assign', async (req, res, next) => {
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -126,8 +122,8 @@ router.get('/assignments', async (req, res, next) => {
     }
     const assignments = await service.getMyAssignments(userId)
     res.json({ success: true, data: assignments })
-  } catch (err) {
-    next(err)
+ } catch (err) {
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -137,7 +133,7 @@ router.put('/assignments/:id/start', async (req, res, next) => {
     const assignment = await service.startAssignment(req.params.id, userId)
     res.json({ success: true, data: assignment })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -147,7 +143,7 @@ router.put('/assignments/:id/complete', async (req, res, next) => {
     const assignment = await service.completeAssignment(req.params.id, userId, req.body)
     res.json({ success: true, data: assignment })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 

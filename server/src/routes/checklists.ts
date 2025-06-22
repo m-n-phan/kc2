@@ -20,7 +20,7 @@ router.get('/', authenticate, async (_req, res, next) => {
     const data = await service.getChecklists()
     res.json({ success: true, data })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -32,7 +32,7 @@ router.get('/:id', authenticate, async (req, res, next) => {
     }
     res.json({ success: true, data: checklist })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -46,7 +46,7 @@ router.post('/', authenticate, authorize('Manager', 'Supervisor'), async (req: A
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -62,7 +62,7 @@ router.put('/:id', authenticate, authorize('Manager', 'Supervisor'), async (req,
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -74,7 +74,7 @@ router.delete('/:id', authenticate, authorize('Manager', 'Supervisor'), async (r
     }
     res.json({ success: true, message: 'Checklist deleted' })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
