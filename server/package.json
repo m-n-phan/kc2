@@ -10,7 +10,9 @@
     "lint": "eslint . --max-warnings 0",
     "type-check": "tsc --noEmit",
     "test": "vitest run",
-    "db:generate": "drizzle-kit generate",
+    "db:generate": "drizzle-kit generate:pg --config ./drizzle.config.ts",
+    "db:migrate": "drizzle-kit push:pg --config ./drizzle.config.ts",
+    "seed": "tsx scripts/seed.ts",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
