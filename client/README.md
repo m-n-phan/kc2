@@ -1,0 +1,30 @@
+# KitchenCoach Client
+
+This React application is configured with React Query for data fetching and a small utility for offline support.
+
+## Offline Support
+
+`src/utils/offline.ts` contains helpers that persist queued API requests and the React Query cache using IndexedDB. When the browser is offline, mutation calls are stored in the `requests` object store. Once connectivity is restored they are automatically replayed.
+
+The exported `idbPersister` is passed to `PersistQueryClientProvider` so cached queries are persisted across reloads. Call `initializeOfflineSync()` early in your app to start listening for the `online` event.
+
+### Basic usage
+
+```tsx
+import { QueryClient } from '@tanstack/react-query'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
+import { initializeOfflineSync, idbPersister } from './utils/offline'
+
+const queryClient = new QueryClient()
+initializeOfflineSync()
+
+function App() {
+  return (
+    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: idbPersister }}>
+      {/* ... */}
+    </PersistQueryClientProvider>
+  )
+}
+```
+
+Queued requests will be synced automatically once the user is back online.

@@ -1,9 +1,9 @@
 import { db, users, locations, trainingModules, trainingAssignments } from '../src/db';
-import { createHash } from 'crypto';
+import bcrypt from 'bcryptjs';
 import { sql } from 'drizzle-orm';
 
 function hashPassword(password: string) {
-  return createHash('sha256').update(password).digest('hex');
+  return bcrypt.hashSync(password, 10);
 }
 
 async function seed() {

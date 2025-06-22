@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useForm } from 'react-hook-form'
+import { useForm, useFieldArray } from 'react-hook-form'
 import { Button } from './Button'
+import { ModuleStepField } from './ModuleStepField'
 import useTrainingStore, { DraftTrainingModule } from '../store/useTrainingStore'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { nanoid } from 'nanoid'
@@ -12,14 +13,8 @@ interface FormData {
   steps: Array<{
     id: string
     title: string
-    blocks: Array<{
-      kind: 'text-md' | 'media' | 'quiz'
-      md?: string
-      url?: string
-      type?: 'image' | 'video'
-      question?: string
-      options?: Array<{ id: string; text: string; correct: boolean }>
-    }>
+    content: string
+    mediaUrl?: string
   }>
 }
 
@@ -37,6 +32,7 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isValid },
     watch
@@ -44,9 +40,14 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
     defaultValues: {
       title: '',
       description: '',
-      steps: [{ id: nanoid(), title: '', blocks: [] }]
+      steps: [{ id: nanoid(), title: '', content: '', mediaUrl: '' }]
     },
     mode: 'onChange'
+  })
+
+  const { fields, append, remove, move } = useFieldArray({
+    control,
+    name: 'steps'
   })
 
   const steps = ['Module Details', 'Build Steps', 'Review & Save']
@@ -56,22 +57,13 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
       id: nanoid(),
       title: data.title,
       description: data.description || undefined,
-      steps: data.steps.map(step => ({
-        id: step.id,
-        title: step.title,
-        blocks: step.blocks.map(block => {
-          if (block.kind === 'text-md') {
-            return { kind: 'text-md', md: block.md || '' }
-          } else if (block.kind === 'media') {
-            return { kind: 'media', url: block.url || '', type: block.type || 'image' }
-          } else {
-            return {
-              kind: 'quiz',
-              question: block.question || '',
-              options: block.options || []
-            }
-          }
-        })
+      steps: data.steps.map(s => ({
+        id: s.id,
+        title: s.title,
+        blocks: [
+          { kind: 'text-md', md: s.content },
+          ...(s.mediaUrl ? [{ kind: 'media', url: s.mediaUrl, type: 'image' }] : [])
+        ]
       })),
       status: 'draft'
     }
@@ -85,22 +77,13 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
       id: nanoid(),
       title: data.title,
       description: data.description || undefined,
-      steps: data.steps.map(step => ({
-        id: step.id,
-        title: step.title,
-        blocks: step.blocks.map(block => {
-          if (block.kind === 'text-md') {
-            return { kind: 'text-md', md: block.md || '' }
-          } else if (block.kind === 'media') {
-            return { kind: 'media', url: block.url || '', type: block.type || 'image' }
-          } else {
-            return {
-              kind: 'quiz',
-              question: block.question || '',
-              options: block.options || []
-            }
-          }
-        })
+      steps: data.steps.map(s => ({
+        id: s.id,
+        title: s.title,
+        blocks: [
+          { kind: 'text-md', md: s.content },
+          ...(s.mediaUrl ? [{ kind: 'media', url: s.mediaUrl, type: 'image' }] : [])
+        ]
       })),
       status: 'draft'
     }
@@ -201,9 +184,44 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
             )}
 
             {step === 2 && (
-              <div>
-                <h3 className="text-h3 mb-4">Training Steps</h3>
-                <p className="text-slate-600 text-sm">Step builder will be implemented in next PR to keep under 300 LOC limit.</p>
+              <div className="space-y-4">
+                <h3 className="text-h3">Training Steps</h3>
+                {fields.map((field, index) => (
+                  <div key={field.id} className="space-y-2">
+                    <ModuleStepField
+                      index={index}
+                      register={register}
+                      errors={errors}
+                      onRemove={() => remove(index)}
+                      canRemove={fields.length > 1}
+                    />
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        aria-label="Move step up"
+                        onClick={() => move(index, index - 1)}
+                        disabled={index === 0}
+                      >
+                        <ChevronLeft className="w-4 h-4 rotate-90" />
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        aria-label="Move step down"
+                        onClick={() => move(index, index + 1)}
+                        disabled={index === fields.length - 1}
+                      >
+                        <ChevronRight className="w-4 h-4 rotate-90" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+                <Button type="button" variant="ghost" onClick={() => append({ id: nanoid(), title: '', content: '', mediaUrl: '' })}>
+                  Add Step
+                </Button>
               </div>
             )}
 

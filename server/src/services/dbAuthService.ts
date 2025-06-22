@@ -3,18 +3,20 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { db, users } from '../db'
 import type { AuthService, AuthTokens } from './AuthService'
+import { requireEnv } from '../utils/requireEnv'
+
+const JWT_SECRET = requireEnv('JWT_SECRET')
 
 export class DbAuthService implements AuthService {
   private issueTokens(user: { id: string; role: string }): AuthTokens {
-    const secret = process.env.JWT_SECRET || 'secret'
     const accessToken = jwt.sign(
       { role: user.role },
-      secret,
+      JWT_SECRET,
       { subject: user.id, expiresIn: '15m' }
     )
     const refreshToken = jwt.sign(
       { role: user.role, type: 'refresh' },
-      secret,
+      JWT_SECRET,
       { subject: user.id, expiresIn: '7d' }
     )
     return { accessToken, refreshToken }
@@ -38,8 +40,7 @@ export class DbAuthService implements AuthService {
 
   async refresh(refreshToken: string): Promise<AuthTokens | null> {
     try {
-      const secret = process.env.JWT_SECRET || 'secret'
-      const payload = jwt.verify(refreshToken, secret) as jwt.JwtPayload
+      const payload = jwt.verify(refreshToken, JWT_SECRET) as jwt.JwtPayload
       if (payload.type !== 'refresh') return null
       const result = await db
         .select()

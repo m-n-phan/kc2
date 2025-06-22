@@ -37,7 +37,10 @@ The API server requires several environment variables. Create a `.env` file in t
 | `PORT` | Port for the Express server | `3001` |
 | `CLIENT_URL` | Allowed origin for CORS requests | `http://localhost:5173` |
 | `DATABASE_URL` | PostgreSQL connection string | `postgresql://dev:dev@localhost:5432/kitchencoach_dev` |
+| `JWT_SECRET` | Secret key for signing JSON Web Tokens | *(none)* |
 | `NODE_ENV` | Node environment (development/production) | `development` |
+
+The server will throw an error during startup if `JWT_SECRET` is not defined.
 
 Other features such as email or SMS integrations may require additional variables which will be documented alongside those features.
 
