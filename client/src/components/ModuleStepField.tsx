@@ -67,6 +67,7 @@ export const ModuleStepField: React.FC<ModuleStepFieldProps> = ({
               variant="ghost"
               size="sm"
               onClick={onRemove}
+              aria-label="Remove step"
               className="text-destructive hover:text-destructive"
             >
               <Trash2 className="w-4 h-4" />
