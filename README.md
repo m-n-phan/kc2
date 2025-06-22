@@ -1,37 +1,6 @@
 # KitchenCoach 2.0 Monorepo
 
-This repository contains the client and server packages for KitchenCoach 2.0.
-
-## Getting Started
-
-Install all workspace dependencies using `npm ci` before running any lint or test commands. Dependency versions are locked by `package-lock.json` and `npm ci` ensures a reproducible environment.
-
-After installing, you can run linting and tests from the repository root:
-
-```bash
-npm run lint     # Lints client and server workspaces
-npm test         # Runs tests for all workspaces
-```
-
-
-# KitchenCoach 2.0
-
-
-This monorepo contains the web client, server API and shared utilities for the KitchenCoach 2.0 platform.
-
-## Getting Started
-
-Install dependencies from the root of the repository:
-
-```bash
-npm ci
-```
-
-During development you can start both the client and server with:
-
-## Overview
-
-KitchenCoach 2.0 is a restaurant training, safety, and compliance platform delivered as a responsive web application and iPad PWA.
+This repository contains the web client, server API and shared utilities for the KitchenCoach 2.0 platform. KitchenCoach 2.0 is a restaurant training, safety, and compliance platform delivered as a responsive web application and iPad PWA.
 
 ## Prerequisites
 
@@ -40,19 +9,24 @@ KitchenCoach 2.0 is a restaurant training, safety, and compliance platform deliv
 
 ## Getting Started
 
-Install all dependencies from the repository root:
+Install all workspace dependencies from the repository root:
 
 ```bash
-npm install
+npm ci
 ```
 
-Start both the client and server in development mode:
-
+During development you can start both the client and server with:
 
 ```bash
 npm run dev
 ```
 
+After installing, you can run linting and tests from the repository root:
+
+```bash
+npm run lint     # Lints client and server workspaces
+npm test         # Runs tests for all workspaces
+```
 
 ## Environment Variables
 
@@ -103,4 +77,3 @@ See `package.json` for additional scripts such as `dev:client`, `dev:server`, an
 ## Design System
 
 Details about the component library and design system can be found in [`client/src/components/README.md`](client/src/components/README.md).
-
