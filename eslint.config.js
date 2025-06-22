@@ -3,6 +3,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
+import globals from 'globals';
 
 export default [
   {
@@ -20,16 +21,14 @@ export default [
   },
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
-    env: {
-      node: true,
-      browser: true,
-      es2020: true,
-    },
     languageOptions: {
       parser: tsparser,
       ecmaVersion: 2020,
       sourceType: 'module',
       globals: {
+        ...globals.es2020,
+        ...globals.node,
+        ...globals.browser,
         React: 'readonly',
       },
     },

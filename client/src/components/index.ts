@@ -25,3 +25,7 @@ export type { IconWrapperProps } from './IconWrapper'
 export type { SidebarProps } from './Sidebar'
 export type { HeaderProps } from './Header'
 export type { ContextButtonProps } from './ContextButton' 
+
+// Checklist Components
+export { ChecklistForm, ChecklistItemField, ScheduleSelector } from './checklists'
+export type { ChecklistFormValues, ChecklistItem } from './checklists'
