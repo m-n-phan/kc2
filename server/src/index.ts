@@ -6,6 +6,8 @@ import trainingRoutes from './routes/training'
 import authRoutes from './routes/auth'
 import checklistRoutes from './routes/checklists'
 import checklistRunRoutes from './routes/checklistRuns'
+
+import uploadsRoutes from './routes/uploads'
 import { errorHandler } from './middleware/errorHandler'
 
 
@@ -40,6 +42,8 @@ app.use('/auth', authRoutes)
 app.use('/api/v1/training', trainingRoutes)
 app.use('/api/v1/checklists', checklistRoutes)
 app.use('/api/v1/checklists', checklistRunRoutes)
+
+app.use('/api/v1/uploads', uploadsRoutes)
 
 app.get('/api/v1/status', (_req, res) => {
   res.json({

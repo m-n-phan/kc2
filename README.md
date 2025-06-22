@@ -39,6 +39,11 @@ The API server requires several environment variables. Create a `.env` file in t
 | `DATABASE_URL` | PostgreSQL connection string | `postgresql://dev:dev@localhost:5432/kitchencoach_dev` |
 | `JWT_SECRET` | Secret key for signing JSON Web Tokens | *(none)* |
 | `NODE_ENV` | Node environment (development/production) | `development` |
+| `S3_ENDPOINT` | S3/MinIO endpoint | `http://localhost:9000` |
+| `S3_REGION` | S3 region | `us-east-1` |
+| `S3_ACCESS_KEY` | S3 access key | `minio` |
+| `S3_SECRET_KEY` | S3 secret key | `minio123` |
+| `S3_BUCKET` | Bucket for uploads | `uploads` |
 
 The server will throw an error during startup if `JWT_SECRET` is not defined.
 
