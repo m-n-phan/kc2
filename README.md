@@ -74,6 +74,19 @@ The root `package.json` exposes several scripts:
 
 See `package.json` for additional scripts such as `dev:client`, `dev:server`, and more.
 
+## Docker Compose
+
+The repository includes a `docker-compose.yml` file for running supporting
+services used by the API. Start the stack with:
+
+```bash
+docker compose up -d
+```
+
+This launches a Postgres 15 database and a MinIO instance with credentials that
+match the defaults referenced in the server configuration. Shut everything down
+with `docker compose down` when finished.
+
 ## Design System
 
 Details about the component library and design system can be found in [`client/src/components/README.md`](client/src/components/README.md).
