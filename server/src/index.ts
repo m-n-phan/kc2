@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import trainingRoutes from './routes/training'
+import { errorHandler } from './middleware/errorHandler'
 
 dotenv.config()
 
@@ -54,15 +55,7 @@ app.use('*', (req, res) => {
 })
 
 // Error handler
-app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  // eslint-disable-next-line no-console
-  console.error('Error:', err.message)
-  res.status(500).json({
-    error: 'Internal Server Error',
-    message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong',
-    timestamp: new Date().toISOString()
-  })
-})
+app.use(errorHandler)
 
 // Start server
 const server = app.listen(PORT, () => {

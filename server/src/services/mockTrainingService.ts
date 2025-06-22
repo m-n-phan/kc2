@@ -1,3 +1,15 @@
+import { TrainingService } from './TrainingService'
+import {
+  CreateTrainingModuleRequest,
+  UpdateTrainingModuleRequest,
+  AssignTrainingModuleRequest,
+  CompleteTrainingAssignmentRequest,
+  TrainingModule,
+  TrainingModuleListItem,
+  TrainingAssignment,
+  TrainingAssignmentWithModule
+} from '@shared/types/training'
+
 // Mock data for development
 const mockModules = [
   {
@@ -76,10 +88,10 @@ const mockModules = [
   }
 ]
 
-export class MockTrainingService {
+export class MockTrainingService implements TrainingService {
   private modules = [...mockModules]
 
-  async getModules() {
+  async getModules(): Promise<TrainingModuleListItem[]> {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 300))
     
@@ -95,12 +107,12 @@ export class MockTrainingService {
     }))
   }
 
-  async getModule(id: string) {
+  async getModule(id: string): Promise<TrainingModule | null> {
     await new Promise(resolve => setTimeout(resolve, 200))
     return this.modules.find(module => module.id === id) || null
   }
 
-  async createModule(data: any) {
+  async createModule(data: CreateTrainingModuleRequest & { status?: string }): Promise<TrainingModule> {
     await new Promise(resolve => setTimeout(resolve, 400))
     
     const newModule = {
@@ -123,7 +135,7 @@ export class MockTrainingService {
     return newModule
   }
 
-  async updateModule(id: string, data: any) {
+  async updateModule(id: string, data: UpdateTrainingModuleRequest): Promise<TrainingModule | null> {
     await new Promise(resolve => setTimeout(resolve, 400))
     
     const moduleIndex = this.modules.findIndex(module => module.id === id)
@@ -149,23 +161,23 @@ export class MockTrainingService {
     return true
   }
 
-  async getMyAssignments() {
+  async getMyAssignments(_userId: string): Promise<TrainingAssignmentWithModule[]> {
     // Mock assignments for development
     await new Promise(resolve => setTimeout(resolve, 200))
     return []
   }
 
-  async assignModule() {
+  async assignModule(_data: AssignTrainingModuleRequest, _assignedBy: string): Promise<{ success: boolean; message: string }> {
     await new Promise(resolve => setTimeout(resolve, 300))
     return { success: true, message: 'Module assigned successfully' }
   }
 
-  async startAssignment() {
+  async startAssignment(_id: string, _userId: string): Promise<{ success: boolean; message: string }> {
     await new Promise(resolve => setTimeout(resolve, 200))
     return { success: true, message: 'Assignment started' }
   }
 
-  async completeAssignment() {
+  async completeAssignment(_id: string, _userId: string, _data: CompleteTrainingAssignmentRequest): Promise<{ success: boolean; message: string }> {
     await new Promise(resolve => setTimeout(resolve, 300))
     return { success: true, message: 'Assignment completed' }
   }
