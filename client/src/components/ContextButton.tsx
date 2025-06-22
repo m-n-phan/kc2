@@ -138,4 +138,6 @@ export const ContextButton: React.FC<ContextButtonProps> = ({ className }) => {
       )}
     </div>
   )
-} 
+}
+
+ContextButton.displayName = 'ContextButton'
