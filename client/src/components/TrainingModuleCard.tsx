@@ -60,8 +60,7 @@ export const TrainingModuleCard: React.FC<TrainingModuleCardProps> = ({
           )}
           <span className="flex items-center gap-1">
             <Users className="w-4 h-4" />
-            {/* TODO: Add enrollment count from API */}
-            0 enrolled
+            {module.enrollmentCount ?? 0} enrolled
           </span>
         </div>
         {module.creator && (

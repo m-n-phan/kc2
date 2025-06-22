@@ -29,6 +29,7 @@ export interface TrainingModuleListItem {
   title: string
   description?: string
   estimatedDuration?: number
+  enrollmentCount?: number
   status: TrainingStatus
   createdAt: string
   creator?: {

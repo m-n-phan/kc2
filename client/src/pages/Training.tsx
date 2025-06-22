@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Card } from '../components/Card'
 import { Button } from '../components/Button'
 import { TrainingModuleCard } from '../components/TrainingModuleCard'
@@ -18,14 +19,14 @@ export const Training: React.FC = () => {
   
   const deleteModuleMutation = useDeleteTrainingModule()
 
+  const navigate = useNavigate()
+
   const handleStartTraining = (moduleId: string) => {
-    // TODO: Navigate to training module viewer
-    console.log('Starting training module:', moduleId)
+    navigate(`/training/modules/${moduleId}`)
   }
 
   const handleEditModule = (moduleId: string) => {
-    // TODO: Navigate to training module editor
-    console.log('Editing training module:', moduleId)
+    navigate(`/training/modules/${moduleId}/edit`)
   }
 
   const handleDeleteModule = async (moduleId: string) => {
@@ -34,7 +35,7 @@ export const Training: React.FC = () => {
         await deleteModuleMutation.mutateAsync(moduleId)
       } catch (error) {
         console.error('Failed to delete training module:', error)
-        // TODO: Show error toast
+        alert('Failed to delete training module. Please try again.')
       }
     }
   }
