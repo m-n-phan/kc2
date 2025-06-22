@@ -14,7 +14,15 @@ const createModuleSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().optional(),
   content: z.object({
-    sections: z.array(z.any()).optional()
+    sections: z
+      .array(
+        z.object({
+          title: z.string(),
+          content: z.string(),
+          type: z.enum(['text', 'video', 'quiz', 'checklist'])
+        })
+      )
+      .optional()
   }),
   estimatedDuration: z.number().positive().optional(),
   status: z.enum(['draft', 'active', 'archived']).optional()
