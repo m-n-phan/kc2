@@ -86,6 +86,7 @@ router.post('/modules', authorize('training.edit'), async (req, res, next) => {
 
 router.put('/modules/:id', authorize('training.edit'), async (req, res, next) => {
   try {
+
     const validated = createModuleSchema.partial().parse(req.body)
 
     const validated = createModuleSchema.partial().parse(req.body) as UpdateTrainingModuleRequest
