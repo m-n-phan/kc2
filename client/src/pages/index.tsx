@@ -20,6 +20,13 @@ export const Checklists: React.FC = () => {
       items: values.items,
       frequency: values.schedule
     }
+
+    const draft = {
+      id: values.id,
+      title: values.title,
+      items: values.items,
+      frequency: values.schedule,
+    } as const
     addDraft(draft)
     setCreating(false)
   }

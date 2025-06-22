@@ -8,6 +8,9 @@ import {
   TrainingModuleListItem,
   TrainingAssignmentWithModule,
   TrainingStatus
+
+  TrainingStatus,
+  TrainingAssignmentWithModule
 } from '@shared/types/training'
 
 // Mock data for development
@@ -143,6 +146,7 @@ export class MockTrainingService implements TrainingService {
       }
     }
 
+    
     this.modules.push(newModule)
     return newModule
   }

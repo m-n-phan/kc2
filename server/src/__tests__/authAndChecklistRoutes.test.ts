@@ -34,12 +34,19 @@ vi.mock('../services/dbChecklistService', () => {
       ]
       async getChecklists() { return this.items }
       async getChecklist(id: string) { return this.items.find(i => i.id === id) || null }
-      async createChecklist(data: any) {
+      async createChecklist(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data: any
+      ) {
         const item = { ...data, id: '2', createdAt: 'now', updatedAt: 'now' }
         this.items.push(item)
         return item
       }
-      async updateChecklist(id: string, data: any) {
+      async updateChecklist(
+        id: string,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data: any
+      ) {
         const item = this.items.find(i => i.id === id)
         if (!item) return null
         Object.assign(item, data)

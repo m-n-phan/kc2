@@ -1,4 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest'
+
 import express from 'express'
 import request from 'supertest'
 import jwt from 'jsonwebtoken'
@@ -7,6 +8,7 @@ const JWT_SECRET = 'testsecret'
 
 // Use the mock training service by ensuring DATABASE_URL is unset before loading the routes
 delete process.env.DATABASE_URL
+
 
 let app: express.Express
 let tokenManager: string
@@ -39,4 +41,3 @@ describe('training route permissions', () => {
     expect(res.status).toBe(403)
   })
 })
-

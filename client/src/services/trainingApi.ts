@@ -134,7 +134,7 @@ export const trainingApi = {
   },
 
   // Assign training module to users
-  async assignModule(assignmentData: AssignTrainingModuleRequest): Promise<any> {
+  async assignModule(assignmentData: AssignTrainingModuleRequest): Promise<unknown> {
     if (!navigator.onLine) {
       await queueRequest({
         id: nanoid(),
@@ -164,7 +164,7 @@ export const trainingApi = {
   },
 
   // Start training assignment
-  async startAssignment(assignmentId: string): Promise<any> {
+  async startAssignment(assignmentId: string): Promise<unknown> {
     if (!navigator.onLine) {
       await queueRequest({
         id: nanoid(),
@@ -188,7 +188,10 @@ export const trainingApi = {
   },
 
   // Complete training assignment
-  async completeAssignment(assignmentId: string, completionData: CompleteTrainingAssignmentRequest): Promise<any> {
+  async completeAssignment(
+    assignmentId: string,
+    completionData: CompleteTrainingAssignmentRequest
+  ): Promise<unknown> {
     if (!navigator.onLine) {
       await queueRequest({
         id: nanoid(),

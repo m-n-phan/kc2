@@ -63,6 +63,11 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
         blocks: [
           { kind: 'text-md', md: s.content },
           ...(s.mediaUrl ? ([{ kind: 'media', url: s.mediaUrl, type: 'image' }] as const) : [])
+
+          { kind: 'text-md', md: s.content } as const,
+          ...(s.mediaUrl
+            ? [{ kind: 'media', url: s.mediaUrl, type: 'image' } as const]
+            : [])
         ]
       })),
       status: 'draft'
@@ -83,6 +88,11 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
         blocks: [
           { kind: 'text-md', md: s.content },
           ...(s.mediaUrl ? ([{ kind: 'media', url: s.mediaUrl, type: 'image' }] as const) : [])
+
+          { kind: 'text-md', md: s.content } as const,
+          ...(s.mediaUrl
+            ? [{ kind: 'media', url: s.mediaUrl, type: 'image' } as const]
+            : [])
         ]
       })),
       status: 'draft'
