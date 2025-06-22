@@ -6,8 +6,7 @@ import {
   CompleteTrainingAssignmentRequest,
   TrainingModule,
   TrainingModuleListItem,
-  TrainingAssignment,
-
+  TrainingStatus,
   TrainingAssignmentWithModule
 } from '@shared/types/training'
 
@@ -136,7 +135,7 @@ export class MockTrainingService implements TrainingService {
       }
     }
     
-    this.modules.push(newModule as any)
+    this.modules.push(newModule)
     return newModule
   }
 
@@ -152,7 +151,7 @@ export class MockTrainingService implements TrainingService {
       updatedAt: new Date().toISOString()
     }
 
-    this.modules[moduleIndex] = updatedModule as any
+    this.modules[moduleIndex] = updatedModule
     return updatedModule
   }
 

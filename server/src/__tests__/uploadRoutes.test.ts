@@ -19,7 +19,11 @@ beforeEach(async () => {
 describe('Uploads routes', () => {
   it('returns a presigned post', async () => {
     const { createPresignedPost } = await import('@aws-sdk/s3-presigned-post')
-    ;(createPresignedPost as any).mockResolvedValue({
+    ;(
+      createPresignedPost as unknown as {
+        mockResolvedValue: (value: unknown) => void
+      }
+    ).mockResolvedValue({
       url: 'http://localhost:9000/uploads',
       fields: { key: 'test.jpg' }
     })

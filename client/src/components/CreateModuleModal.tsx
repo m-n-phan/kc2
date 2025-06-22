@@ -44,6 +44,7 @@ export const CreateModuleModal: React.FC<CreateModuleModalProps> = ({ isOpen, on
       })
       onClose()
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to create module:', error)
       alert('Failed to create training module. Please try again.')
     }

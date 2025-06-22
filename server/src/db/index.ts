@@ -18,7 +18,7 @@ try {
   // Create a mock database for development/testing when no real DB is available
   const mockSql: NeonQueryFunction<boolean, boolean> = (() => {
     throw new Error('Database not configured - using mock for development')
-  }) as any
+  }) as unknown as NeonQueryFunction<boolean, boolean>
   
   db = drizzle(mockSql, { schema })
 }

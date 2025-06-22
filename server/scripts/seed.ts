@@ -147,10 +147,12 @@ async function seed() {
     }
   ]);
 
+  // eslint-disable-next-line no-console
   console.log('✅ Database seeded');
 }
 
 seed().then(() => process.exit(0)).catch(err => {
+  // eslint-disable-next-line no-console
   console.error('Seed failed', err);
   process.exit(1);
 });
