@@ -1,12 +1,13 @@
-import type { 
-  TrainingModuleListItem, 
-  TrainingModule, 
-  CreateTrainingModuleRequest, 
+import type {
+  TrainingModuleListItem,
+  TrainingModule,
+  CreateTrainingModuleRequest,
   UpdateTrainingModuleRequest,
   TrainingAssignment,
   AssignTrainingModuleRequest,
   CompleteTrainingAssignmentRequest
 } from '@shared/types/training'
+import { getCurrentUserId } from '../utils/auth'
 
 const API_BASE = '/api/v1'
 
@@ -89,7 +90,7 @@ export const trainingApi = {
   async getMyAssignments(): Promise<TrainingAssignment[]> {
     const response = await fetch(`${API_BASE}/training/assignments`, {
       headers: {
-        'x-user-id': 'current-user-id', // TODO: Get from auth context
+        'x-user-id': getCurrentUserId(),
       },
     })
     const data = await handleResponse(response)
@@ -104,7 +105,7 @@ export const trainingApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': 'current-user-id', // TODO: Get from auth context
+        'x-user-id': getCurrentUserId(),
       },
       body: JSON.stringify(assignmentData),
     })
@@ -119,7 +120,7 @@ export const trainingApi = {
     const response = await fetch(`${API_BASE}/training/assignments/${assignmentId}/start`, {
       method: 'PUT',
       headers: {
-        'x-user-id': 'current-user-id', // TODO: Get from auth context
+        'x-user-id': getCurrentUserId(),
       },
     })
     const data = await handleResponse(response)
@@ -134,7 +135,7 @@ export const trainingApi = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': 'current-user-id', // TODO: Get from auth context
+        'x-user-id': getCurrentUserId(),
       },
       body: JSON.stringify(completionData),
     })
