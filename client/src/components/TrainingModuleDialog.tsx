@@ -3,7 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { Button } from './Button'
 import { ModuleStepField } from './ModuleStepField'
-import useTrainingStore, { DraftTrainingModule } from '../store/useTrainingStore'
+import useTrainingStore, { DraftTrainingModule, TrainingStep } from '../store/useTrainingStore'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { nanoid } from 'nanoid'
 
@@ -57,10 +57,13 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
       id: nanoid(),
       title: data.title,
       description: data.description || undefined,
-      steps: data.steps.map(s => ({
+      steps: data.steps.map<TrainingStep>((s) => ({
         id: s.id,
         title: s.title,
         blocks: [
+          { kind: 'text-md', md: s.content },
+          ...(s.mediaUrl ? ([{ kind: 'media', url: s.mediaUrl, type: 'image' }] as const) : [])
+
           { kind: 'text-md', md: s.content } as const,
           ...(s.mediaUrl
             ? [{ kind: 'media', url: s.mediaUrl, type: 'image' } as const]
@@ -79,10 +82,13 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
       id: nanoid(),
       title: data.title,
       description: data.description || undefined,
-      steps: data.steps.map(s => ({
+      steps: data.steps.map<TrainingStep>((s) => ({
         id: s.id,
         title: s.title,
         blocks: [
+          { kind: 'text-md', md: s.content },
+          ...(s.mediaUrl ? ([{ kind: 'media', url: s.mediaUrl, type: 'image' }] as const) : [])
+
           { kind: 'text-md', md: s.content } as const,
           ...(s.mediaUrl
             ? [{ kind: 'media', url: s.mediaUrl, type: 'image' } as const]

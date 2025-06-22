@@ -35,8 +35,8 @@ export function authorize(permission: Permission) {
     if (!req.user) {
       return res.status(401).json({ success: false, error: 'Unauthorized' })
     }
-    const perms =
-      rolePermissions[req.user.role as keyof typeof rolePermissions] || []
+    const perms: readonly Permission[] =
+      rolePermissions[req.user.role as keyof typeof rolePermissions] ?? []
     if (!perms.includes(permission)) {
       return res.status(403).json({ success: false, error: 'Forbidden' })
     }
