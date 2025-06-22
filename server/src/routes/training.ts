@@ -5,9 +5,7 @@ import { MockTrainingService } from '../services/mockTrainingService'
 import type { TrainingService } from '../services/TrainingService'
 import type {
   CreateTrainingModuleRequest,
-  UpdateTrainingModuleRequest,
-  AssignTrainingModuleRequest,
-  CompleteTrainingAssignmentRequest,
+  UpdateTrainingModuleRequest
 } from '@shared/types/training'
 import { authenticate, authorize } from '../middleware/auth'
 
@@ -68,8 +66,6 @@ router.get('/modules/:id', authorize('training.read'), async (req, res, next) =>
 
 router.post('/modules', authorize('training.edit'), async (req, res, next) => {
   try {
-    const validated = createModuleSchema.parse(req.body)
-
     const validated = createModuleSchema.parse(req.body) as CreateTrainingModuleRequest & {
       status?: string
     }
@@ -86,9 +82,6 @@ router.post('/modules', authorize('training.edit'), async (req, res, next) => {
 
 router.put('/modules/:id', authorize('training.edit'), async (req, res, next) => {
   try {
-
-    const validated = createModuleSchema.partial().parse(req.body)
-
     const validated = createModuleSchema.partial().parse(req.body) as UpdateTrainingModuleRequest
     const module = await service.updateModule(req.params.id, validated)
     if (!module) {

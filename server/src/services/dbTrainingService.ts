@@ -54,7 +54,7 @@ export class DbTrainingService implements TrainingService {
         description: data.description,
         content: data.content,
         estimatedDuration: data.estimatedDuration,
-        status: data.status || 'draft',
+        status: (data.status ?? 'draft') as 'draft' | 'active' | 'archived',
         createdBy
       })
       .returning()
@@ -85,7 +85,7 @@ export class DbTrainingService implements TrainingService {
   }
 
   async assignModule(data: AssignTrainingModuleRequest, assignedBy: string): Promise<TrainingAssignment[]> {
-    const assignments = data.assignedTo.map(userId => ({
+    const assignments = data.assignedTo.map((userId: string) => ({
       moduleId: data.moduleId,
       assignedTo: userId,
       assignedBy,

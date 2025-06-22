@@ -6,9 +6,8 @@ import {
   CompleteTrainingAssignmentRequest,
   TrainingModule,
   TrainingModuleListItem,
-  TrainingAssignment,
-
-  TrainingAssignmentWithModule
+  TrainingAssignmentWithModule,
+  TrainingStatus
 } from '@shared/types/training'
 
 // Mock data for development
@@ -92,24 +91,32 @@ const mockModules = [
   }
 ]
 
+type ModuleWithCreator = TrainingModule & {
+  creator: {
+    id: string
+    name: string
+    email: string
+  }
+}
+
 export class MockTrainingService implements TrainingService {
-  private modules: TrainingModule[] = [...(mockModules as TrainingModule[])]
+  private modules: ModuleWithCreator[] = [...(mockModules as ModuleWithCreator[])]
 
   async getModules(): Promise<TrainingModuleListItem[]> {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 300))
     
-    return this.modules.map(module => ({
-      id: module.id,
-      title: module.title,
-      description: module.description,
-      status: module.status,
-      enrollmentCount: 0,
-      estimatedDuration: module.estimatedDuration,
-      createdAt: module.createdAt,
-      updatedAt: module.updatedAt,
-      creator: module.creator
-    }))
+      return this.modules.map(module => ({
+        id: module.id,
+        title: module.title,
+        description: module.description,
+        status: module.status,
+        enrollmentCount: 0,
+        estimatedDuration: module.estimatedDuration,
+        createdAt: module.createdAt,
+        updatedAt: module.updatedAt,
+        creator: module.creator
+      }))
   }
 
   async getModule(id: string): Promise<TrainingModule | null> {
@@ -120,7 +127,7 @@ export class MockTrainingService implements TrainingService {
   async createModule(data: CreateTrainingModuleRequest & { status?: string }): Promise<TrainingModule> {
     await new Promise(resolve => setTimeout(resolve, 400))
     const status: TrainingStatus = (data.status ?? 'draft') as TrainingStatus
-    const newModule: TrainingModule = {
+    const newModule: ModuleWithCreator = {
       id: (this.modules.length + 1).toString(),
       title: data.title,
       description: data.description || '',
@@ -135,8 +142,8 @@ export class MockTrainingService implements TrainingService {
         email: 'user@restaurant.com'
       }
     }
-    
-    this.modules.push(newModule as any)
+
+    this.modules.push(newModule)
     return newModule
   }
 
@@ -146,13 +153,13 @@ export class MockTrainingService implements TrainingService {
     const moduleIndex = this.modules.findIndex(module => module.id === id)
     if (moduleIndex === -1) return null
     
-    const updatedModule: TrainingModule = {
+    const updatedModule: ModuleWithCreator = {
       ...this.modules[moduleIndex],
       ...data,
       updatedAt: new Date().toISOString()
     }
 
-    this.modules[moduleIndex] = updatedModule as any
+    this.modules[moduleIndex] = updatedModule
     return updatedModule
   }
 

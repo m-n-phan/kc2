@@ -1,21 +1,11 @@
-import { describe, it, expect, beforeAll, vi } from 'vitest'
-
-
-import { describe, it, expect, beforeAll, vi } from 'vitest'
-
+import { beforeAll, describe, expect, it } from 'vitest'
 import express from 'express'
 import request from 'supertest'
 import jwt from 'jsonwebtoken'
-import { beforeAll, describe, expect, it } from 'vitest'
 
 const JWT_SECRET = 'testsecret'
 
-import { describe, it, expect, vi, beforeAll } from "vitest"
-import request from 'supertest'
-import express from 'express'
-
 // Use the mock training service by ensuring DATABASE_URL is unset before loading the routes
-const originalDbUrl = process.env.DATABASE_URL
 delete process.env.DATABASE_URL
 
 let app: express.Express

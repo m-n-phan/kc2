@@ -3,13 +3,15 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": "../",
+    "rootDirs": ["src", "../shared/src"],
     "paths": {
-      "@shared/*": ["../shared/dist/*"]
+      "@shared/*": ["../shared/src/*"]
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "../shared/src/**/*"
   ],
   "exclude": [
     "node_modules",
