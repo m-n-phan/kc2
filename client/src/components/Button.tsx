@@ -1,5 +1,5 @@
 import React from 'react'
-import { clsx } from 'clsx'
+import { cn } from '../utils/cn'
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost'
@@ -53,7 +53,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         aria-label={ariaLabel}
         aria-disabled={isDisabled}
-        className={clsx(
+        className={cn(
           buttonBase,
           buttonVariants[variant],
           buttonSizes[size],
