@@ -20,23 +20,17 @@ export default [
   },
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
+    env: {
+      node: true,
+      browser: true,
+      es2020: true,
+    },
     languageOptions: {
       parser: tsparser,
       ecmaVersion: 2020,
       sourceType: 'module',
-              globals: {
-        window: 'readonly',
-        document: 'readonly',
-        console: 'readonly',
-        global: 'readonly',
-        process: 'readonly',
-        HTMLElement: 'readonly',
-        HTMLDivElement: 'readonly',
-        HTMLButtonElement: 'readonly',
-        HTMLSpanElement: 'readonly',
+      globals: {
         React: 'readonly',
-        MouseEvent: 'readonly',
-        Event: 'readonly',
       },
     },
     plugins: {
