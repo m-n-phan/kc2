@@ -4,6 +4,15 @@ import jwt from 'jsonwebtoken'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 const JWT_SECRET = 'testsecret'
+
+import { describe, it, expect, vi, beforeAll } from "vitest"
+import request from 'supertest'
+import express from 'express'
+
+// Use the mock training service by ensuring DATABASE_URL is unset before loading the routes
+const originalDbUrl = process.env.DATABASE_URL
+delete process.env.DATABASE_URL
+
 let app: express.Express
 let tokenManager: string
 let tokenStaff: string

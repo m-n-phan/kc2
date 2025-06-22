@@ -20,7 +20,7 @@ router.get('/', authenticate, authorize('checklists.read'), async (_req, res, ne
     const data = await service.getChecklists()
     res.json({ success: true, data })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -32,7 +32,7 @@ router.get('/:id', authenticate, authorize('checklists.read'), async (req, res, 
     }
     res.json({ success: true, data: checklist })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -46,7 +46,7 @@ router.post('/', authenticate, authorize('checklists.edit'), async (req: AuthReq
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -62,7 +62,7 @@ router.put('/:id', authenticate, authorize('checklists.edit'), async (req, res, 
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -74,7 +74,7 @@ router.delete('/:id', authenticate, authorize('checklists.edit'), async (req, re
     }
     res.json({ success: true, message: 'Checklist deleted' })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 

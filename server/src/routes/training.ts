@@ -50,7 +50,7 @@ router.get('/modules', authorize('training.read'), async (_req, res, next) => {
     const modules = await service.getModules()
     res.json({ success: true, data: modules })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -62,7 +62,7 @@ router.get('/modules/:id', authorize('training.read'), async (req, res, next) =>
     }
     res.json({ success: true, data: module })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -78,7 +78,7 @@ router.post('/modules', authorize('training.edit'), async (req, res, next) => {
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -94,7 +94,7 @@ router.put('/modules/:id', authorize('training.edit'), async (req, res, next) =>
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -105,8 +105,8 @@ router.delete('/modules/:id', authorize('training.edit'), async (req, res, next)
       return res.status(404).json({ success: false, error: 'Training module not found' })
     }
     res.json({ success: true, message: 'Training module deleted successfully' })
-  } catch (err) {
-    next(err)
+ } catch (err) {
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -120,7 +120,7 @@ router.post('/assign', authorize('training.edit'), async (req, res, next) => {
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -132,8 +132,8 @@ router.get('/assignments', authorize('training.read'), async (req, res, next) =>
     }
     const assignments = await service.getMyAssignments(userId)
     res.json({ success: true, data: assignments })
-  } catch (err) {
-    next(err)
+ } catch (err) {
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -143,7 +143,7 @@ router.put('/assignments/:id/start', authorize('training.edit'), async (req, res
     const assignment = await service.startAssignment(req.params.id, userId)
     res.json({ success: true, data: assignment })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
@@ -153,7 +153,7 @@ router.put('/assignments/:id/complete', authorize('training.edit'), async (req, 
     const assignment = await service.completeAssignment(req.params.id, userId, req.body)
     res.json({ success: true, data: assignment })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
