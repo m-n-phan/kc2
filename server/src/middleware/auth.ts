@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
+import { requireEnv } from '../utils/requireEnv'
+
+const JWT_SECRET = requireEnv('JWT_SECRET')
 
 export interface AuthRequest extends Request {
   user?: { id: string; role: string }
@@ -12,7 +15,7 @@ export function authenticate(req: AuthRequest, res: Response, next: NextFunction
   }
   const token = header.split(' ')[1]
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET || 'secret') as jwt.JwtPayload
+    const payload = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload
     req.user = { id: payload.sub as string, role: payload.role as string }
     next()
   } catch {
