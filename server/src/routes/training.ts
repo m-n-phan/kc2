@@ -61,8 +61,6 @@ router.post('/modules', async (req, res, next) => {
     const validated = createModuleSchema.parse(req.body) as CreateTrainingModuleRequest & {
       status?: string
     }
-
-    const validated = createModuleSchema.parse(req.body)
     const createdBy = (req.headers['x-user-id'] as string) || 'system'
     const module = await service.createModule(validated, createdBy)
     res.status(201).json({ success: true, data: module })
@@ -77,8 +75,6 @@ router.post('/modules', async (req, res, next) => {
 router.put('/modules/:id', async (req, res, next) => {
   try {
     const validated = createModuleSchema.partial().parse(req.body) as UpdateTrainingModuleRequest
-
-    const validated = createModuleSchema.partial().parse(req.body)
     const module = await service.updateModule(req.params.id, validated)
     if (!module) {
       return res.status(404).json({ success: false, error: 'Training module not found' })
