@@ -1,4 +1,12 @@
-import { db, users, locations, trainingModules, trainingAssignments } from '../src/db';
+import {
+  db,
+  users,
+  locations,
+  trainingModules,
+  trainingAssignments,
+  checklists,
+  checklistItems,
+} from '../src/db';
 import bcrypt from 'bcryptjs';
 import { sql } from 'drizzle-orm';
 
@@ -8,6 +16,11 @@ function hashPassword(password: string) {
 
 async function seed() {
   // Clear existing data
+  await db.execute(sql`DELETE FROM "corrective_actions"`);
+  await db.execute(sql`DELETE FROM "task_run_items"`);
+  await db.execute(sql`DELETE FROM "task_runs"`);
+  await db.execute(sql`DELETE FROM "checklist_items"`);
+  await db.execute(sql`DELETE FROM "checklists"`);
   await db.execute(sql`DELETE FROM "training_assignments"`);
   await db.execute(sql`DELETE FROM "training_modules"`);
   await db.execute(sql`DELETE FROM "users"`);
@@ -46,6 +59,38 @@ async function seed() {
   const managerId = insertedUsers.find(u => u.role === 'Manager')!.id;
   const supervisorId = insertedUsers.find(u => u.role === 'Supervisor')!.id;
   const staffId = insertedUsers.find(u => u.role === 'Staff')!.id;
+
+  const [dailyChecklist] = await db
+    .insert(checklists)
+    .values({
+      title: 'Daily Opening Checklist',
+      description: 'Tasks to prepare the kitchen for service.',
+      frequency: 'daily' as const,
+      locationId: location.id,
+      createdBy: managerId,
+    })
+    .returning();
+
+  await db.insert(checklistItems).values([
+    {
+      checklistId: dailyChecklist.id,
+      title: 'Check refrigerator temperatures',
+      description: 'Ensure all refrigerators are at or below 40°F.',
+      orderIndex: 1,
+    },
+    {
+      checklistId: dailyChecklist.id,
+      title: 'Sanitize prep surfaces',
+      description: 'Wipe down and sanitize all food prep areas.',
+      orderIndex: 2,
+    },
+    {
+      checklistId: dailyChecklist.id,
+      title: 'Turn on cooking equipment',
+      description: 'Preheat ovens, grills, and fryers.',
+      orderIndex: 3,
+    },
+  ]);
 
   const modules = [
     {
