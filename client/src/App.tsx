@@ -1,6 +1,8 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { AppRouter } from './router'
 import { UserProvider } from './context/UserContext'
+import { initializeOfflineSync, idbPersister } from './utils/offline'
 import './styles/globals.css'
 
 // Create a client
@@ -15,12 +17,14 @@ const queryClient = new QueryClient({
 })
 
 function App() {
+  initializeOfflineSync()
+
   return (
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: idbPersister }}>
       <UserProvider>
         <AppRouter />
       </UserProvider>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   )
 }
 

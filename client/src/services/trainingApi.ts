@@ -8,6 +8,8 @@ import type {
   CompleteTrainingAssignmentRequest
 } from '@shared/types/training'
 import { getCurrentUserId } from '../utils/auth'
+import { queueRequest } from '../utils/offline'
+import { nanoid } from 'nanoid'
 
 const API_BASE = '/api/v1'
 
@@ -41,6 +43,18 @@ export const trainingApi = {
 
   // Create new training module
   async createModule(moduleData: CreateTrainingModuleRequest): Promise<TrainingModule> {
+    if (!navigator.onLine) {
+      await queueRequest({
+        id: nanoid(),
+        url: `${API_BASE}/training/modules`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(moduleData),
+      })
+      // Return minimal placeholder until synced
+      return moduleData as unknown as TrainingModule
+    }
+
     const response = await fetch(`${API_BASE}/training/modules`, {
       method: 'POST',
       headers: {
@@ -49,13 +63,24 @@ export const trainingApi = {
       body: JSON.stringify(moduleData),
     })
     const data = await handleResponse(response)
-    
+
     // Handle both formats: direct object (mock) or wrapped response (database)
     return data.data || data
   },
 
   // Update training module
   async updateModule(id: string, moduleData: UpdateTrainingModuleRequest): Promise<TrainingModule> {
+    if (!navigator.onLine) {
+      await queueRequest({
+        id: nanoid(),
+        url: `${API_BASE}/training/modules/${id}`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(moduleData),
+      })
+      return moduleData as unknown as TrainingModule
+    }
+
     const response = await fetch(`${API_BASE}/training/modules/${id}`, {
       method: 'PUT',
       headers: {
@@ -64,13 +89,22 @@ export const trainingApi = {
       body: JSON.stringify(moduleData),
     })
     const data = await handleResponse(response)
-    
+
     // Handle both formats: direct object (mock) or wrapped response (database)
     return data.data || data
   },
 
   // Delete training module
   async deleteModule(id: string): Promise<void> {
+    if (!navigator.onLine) {
+      await queueRequest({
+        id: nanoid(),
+        url: `${API_BASE}/training/modules/${id}`,
+        method: 'DELETE',
+      })
+      return
+    }
+
     const response = await fetch(`${API_BASE}/training/modules/${id}`, {
       method: 'DELETE',
     })
@@ -101,6 +135,20 @@ export const trainingApi = {
 
   // Assign training module to users
   async assignModule(assignmentData: AssignTrainingModuleRequest): Promise<any> {
+    if (!navigator.onLine) {
+      await queueRequest({
+        id: nanoid(),
+        url: `${API_BASE}/training/assign`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-user-id': getCurrentUserId(),
+        },
+        body: JSON.stringify(assignmentData),
+      })
+      return
+    }
+
     const response = await fetch(`${API_BASE}/training/assign`, {
       method: 'POST',
       headers: {
@@ -110,13 +158,23 @@ export const trainingApi = {
       body: JSON.stringify(assignmentData),
     })
     const data = await handleResponse(response)
-    
+
     // Handle both formats: direct object (mock) or wrapped response (database)
     return data.data || data
   },
 
   // Start training assignment
   async startAssignment(assignmentId: string): Promise<any> {
+    if (!navigator.onLine) {
+      await queueRequest({
+        id: nanoid(),
+        url: `${API_BASE}/training/assignments/${assignmentId}/start`,
+        method: 'PUT',
+        headers: { 'x-user-id': getCurrentUserId() },
+      })
+      return
+    }
+
     const response = await fetch(`${API_BASE}/training/assignments/${assignmentId}/start`, {
       method: 'PUT',
       headers: {
@@ -124,13 +182,27 @@ export const trainingApi = {
       },
     })
     const data = await handleResponse(response)
-    
+
     // Handle both formats: direct object (mock) or wrapped response (database)
     return data.data || data
   },
 
   // Complete training assignment
   async completeAssignment(assignmentId: string, completionData: CompleteTrainingAssignmentRequest): Promise<any> {
+    if (!navigator.onLine) {
+      await queueRequest({
+        id: nanoid(),
+        url: `${API_BASE}/training/assignments/${assignmentId}/complete`,
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-user-id': getCurrentUserId(),
+        },
+        body: JSON.stringify(completionData),
+      })
+      return
+    }
+
     const response = await fetch(`${API_BASE}/training/assignments/${assignmentId}/complete`, {
       method: 'PUT',
       headers: {
@@ -140,8 +212,8 @@ export const trainingApi = {
       body: JSON.stringify(completionData),
     })
     const data = await handleResponse(response)
-    
+
     // Handle both formats: direct object (mock) or wrapped response (database)
     return data.data || data
   },
-} 
+}
