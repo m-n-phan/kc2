@@ -1,5 +1,6 @@
 # KitchenCoach 2.0
 
+
 This monorepo contains the web client, server API and shared utilities for the KitchenCoach 2.0 platform.
 
 ## Getting Started
@@ -35,6 +36,7 @@ Start both the client and server in development mode:
 ```bash
 npm run dev
 ```
+
 
 ## Environment Variables
 
