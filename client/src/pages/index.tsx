@@ -1,16 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { ChecklistForm, ChecklistFormValues } from '../components/checklists'
+import useChecklistStore from '../store/useChecklistStore'
+import { Button, Card } from '../components'
 
 // Page Components
 export { Dashboard } from './Dashboard'
 export { Training } from './Training'
 
 // Placeholder pages for navigation
-export const Checklists: React.FC = () => (
-  <div className="p-8 text-center">
-    <h1 className="text-h1 text-charcoal mb-4">Checklists</h1>
-    <p className="text-slate-600">Checklist management coming in Chunk 3</p>
-  </div>
-)
+export const Checklists: React.FC = () => {
+  const [creating, setCreating] = useState(false)
+  const drafts = useChecklistStore((s) => s.drafts)
+  const addDraft = useChecklistStore((s) => s.addDraft)
+
+  const handleSubmit = (values: ChecklistFormValues) => {
+    addDraft(values)
+    setCreating(false)
+  }
+
+  return (
+    <div className="space-y-section p-8">
+      <div className="flex items-center justify-between">
+        <h1 className="text-h1 text-charcoal">Checklists</h1>
+        <Button onClick={() => setCreating((c) => !c)}>
+          {creating ? 'Cancel' : 'New Checklist'}
+        </Button>
+      </div>
+
+      {creating && <ChecklistForm onSubmit={handleSubmit} />}
+
+      <div className="grid gap-4">
+        {drafts.map((d) => (
+          <Card key={d.id} className="p-4">
+            <h3 className="text-h3 mb-1">{d.title}</h3>
+            <p className="text-sm text-slate-600 capitalize">{d.frequency}</p>
+            <p className="text-sm text-slate-600">{d.items.length} items</p>
+          </Card>
+        ))}
+        {drafts.length === 0 && !creating && (
+          <p className="text-slate-600">No checklists yet.</p>
+        )}
+      </div>
+    </div>
+  )
+}
 
 export const Reports: React.FC = () => (
   <div className="p-8 text-center">
