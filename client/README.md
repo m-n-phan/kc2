@@ -28,3 +28,17 @@ function App() {
 ```
 
 Queued requests will be synced automatically once the user is back online.
+
+## PWA Service Worker
+
+The application uses `vite-plugin-pwa` to generate a service worker. API
+requests to `/api/*` are cached with a network-first strategy while static
+assets are cached using a cache-first policy. The service worker is registered
+automatically in `src/main.tsx`.
+
+### Offline Testing
+
+1. Run `npm run build --workspace=client` to generate the production build.
+2. Serve the `dist` directory with `npm run preview --workspace=client`.
+3. Open the app in your browser and then enable offline mode in dev tools.
+4. Navigate previously visited pages to confirm they load from cache.
