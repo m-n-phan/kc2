@@ -9,6 +9,19 @@ on:
 jobs:
   quality-gate:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: kitchencoach_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     strategy:
       matrix:
         node-version: [18.x, 20.x]
@@ -24,6 +37,16 @@ jobs:
     
     - name: Install dependencies
       run: npm ci
+
+    - name: Run database migrations
+      run: npm run db:migrate --workspace=server
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/kitchencoach_test
+
+    - name: Seed database
+      run: npm run seed --workspace=server
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/kitchencoach_test
     
     - name: 🔍 Lint code
       run: npm run lint
