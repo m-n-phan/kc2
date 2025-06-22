@@ -312,7 +312,7 @@ app.use(helmet({
 
 **Authentication Security**:
 - JWT with secure signing algorithms (RS256)
-- bcrypt for password hashing (rounds: 12)
+ - bcrypt for password hashing (rounds: 10)
 - Rate limiting on auth endpoints (5 attempts/15min)
 - Secure cookie configuration with httpOnly/secure flags
 
