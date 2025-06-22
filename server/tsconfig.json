@@ -3,11 +3,13 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "paths": {
+      "@shared/*": ["../shared/dist/*"]
+    }
   },
   "include": [
-    "src/**/*",
-    "../shared/src"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",

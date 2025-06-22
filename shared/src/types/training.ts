@@ -2,7 +2,7 @@ export type TrainingStatus = 'draft' | 'active' | 'archived'
 export type AssignmentStatus = 'pending' | 'in_progress' | 'completed' | 'overdue'
 
 export interface TrainingModuleContent {
-  sections: TrainingSection[]
+  sections?: TrainingSection[]
 }
 
 export interface TrainingSection {
@@ -17,7 +17,7 @@ export interface TrainingModule {
   description?: string
   content: TrainingModuleContent
   estimatedDuration?: number // minutes
-  version: number
+  version?: number
   status: TrainingStatus
   createdBy?: string
   createdAt: string
