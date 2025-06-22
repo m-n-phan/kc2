@@ -7,15 +7,15 @@ import globals from 'globals';
 
 export default [
   {
+    // Ignore compiled output and other generated files in all workspaces
     ignores: [
-      'dist/**/*',
-      'node_modules/**/*',
-      '**/dist/**/*',
-      '**/coverage/**/*',
-      'reports/**/*',
+      '**/dist/**',
+      '**/coverage/**',
+      '**/reports/**',
+      '**/build/**',
+      'node_modules/**',
       '**/*.config.js',
       '**/*.config.ts',
-      '**/build/**/*',
       '**/*.tsbuildinfo'
     ],
   },
