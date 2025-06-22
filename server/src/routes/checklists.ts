@@ -15,16 +15,16 @@ const checklistSchema = z.object({
   isActive: z.boolean().optional()
 })
 
-router.get('/', authenticate, async (_req, res, next) => {
+router.get('/', authenticate, authorize('checklists.read'), async (_req, res, next) => {
   try {
     const data = await service.getChecklists()
     res.json({ success: true, data })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
-router.get('/:id', authenticate, async (req, res, next) => {
+router.get('/:id', authenticate, authorize('checklists.read'), async (req, res, next) => {
   try {
     const checklist = await service.getChecklist(req.params.id)
     if (!checklist) {
@@ -32,11 +32,11 @@ router.get('/:id', authenticate, async (req, res, next) => {
     }
     res.json({ success: true, data: checklist })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
-router.post('/', authenticate, authorize('Manager', 'Supervisor'), async (req: AuthRequest, res, next) => {
+router.post('/', authenticate, authorize('checklists.edit'), async (req: AuthRequest, res, next) => {
   try {
     const data = checklistSchema.parse(req.body)
     const createdBy = req.user!.id
@@ -46,11 +46,11 @@ router.post('/', authenticate, authorize('Manager', 'Supervisor'), async (req: A
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
-router.put('/:id', authenticate, authorize('Manager', 'Supervisor'), async (req, res, next) => {
+router.put('/:id', authenticate, authorize('checklists.edit'), async (req, res, next) => {
   try {
     const data = checklistSchema.partial().parse(req.body)
     const item = await service.updateChecklist(req.params.id, data)
@@ -62,11 +62,11 @@ router.put('/:id', authenticate, authorize('Manager', 'Supervisor'), async (req,
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
     }
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 
-router.delete('/:id', authenticate, authorize('Manager', 'Supervisor'), async (req, res, next) => {
+router.delete('/:id', authenticate, authorize('checklists.edit'), async (req, res, next) => {
   try {
     const ok = await service.deleteChecklist(req.params.id)
     if (!ok) {
@@ -74,7 +74,7 @@ router.delete('/:id', authenticate, authorize('Manager', 'Supervisor'), async (r
     }
     res.json({ success: true, message: 'Checklist deleted' })
   } catch (err) {
-    next(err)
+    next({ code: 500, message: (err as Error).message })
   }
 })
 

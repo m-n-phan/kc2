@@ -4,6 +4,13 @@ import { requireEnv } from '../utils/requireEnv'
 
 const JWT_SECRET = requireEnv('JWT_SECRET')
 
+export const rolePermissions = {
+  Manager: ['training.read', 'training.edit', 'checklists.read', 'checklists.edit'],
+  Supervisor: ['training.read', 'training.edit', 'checklists.read', 'checklists.edit'],
+  Staff: ['training.read', 'checklists.read'],
+} as const
+export type Permission = (typeof rolePermissions)[keyof typeof rolePermissions][number]
+
 export interface AuthRequest extends Request {
   user?: { id: string; role: string }
 }
@@ -23,12 +30,14 @@ export function authenticate(req: AuthRequest, res: Response, next: NextFunction
   }
 }
 
-export function authorize(...roles: string[]) {
+export function authorize(permission: Permission) {
   return (req: AuthRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
       return res.status(401).json({ success: false, error: 'Unauthorized' })
     }
-    if (!roles.includes(req.user.role)) {
+    const perms =
+      rolePermissions[req.user.role as keyof typeof rolePermissions] || []
+    if (!perms.includes(permission)) {
       return res.status(403).json({ success: false, error: 'Forbidden' })
     }
     next()
