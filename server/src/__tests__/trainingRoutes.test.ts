@@ -15,9 +15,9 @@ describe('Training routes', () => {
   it('GET /api/v1/training/modules returns modules from mock service', async () => {
     const res = await request(app).get('/api/v1/training/modules')
     expect(res.status).toBe(200)
-    expect(Array.isArray(res.body)).toBe(true)
-    expect(res.body.length).toBeGreaterThan(0)
-    expect(res.body[0]).toHaveProperty('id')
-    expect(res.body[0]).toHaveProperty('title')
+    expect(Array.isArray(res.body.data)).toBe(true)
+    expect(res.body.data.length).toBeGreaterThan(0)
+    expect(res.body.data[0]).toHaveProperty('id')
+    expect(res.body.data[0]).toHaveProperty('title')
   })
 })
