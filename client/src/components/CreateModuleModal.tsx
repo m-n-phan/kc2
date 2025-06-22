@@ -88,7 +88,7 @@ export const CreateModuleModal: React.FC<CreateModuleModalProps> = ({ isOpen, on
                 type="text"
                 value={formData.title}
                 onChange={handleChange('title')}
-                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
                 placeholder="Enter module title"
                 required
               />
@@ -103,7 +103,7 @@ export const CreateModuleModal: React.FC<CreateModuleModalProps> = ({ isOpen, on
                 value={formData.description}
                 onChange={handleChange('description')}
                 rows={3}
-                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 focus:border-sage-500 resize-none"
+                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange resize-none"
                 placeholder="Brief description of the training module"
               />
             </div>
@@ -118,7 +118,7 @@ export const CreateModuleModal: React.FC<CreateModuleModalProps> = ({ isOpen, on
                 value={formData.estimatedDuration}
                 onChange={handleChange('estimatedDuration')}
                 min="1"
-                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
                 placeholder="e.g., 30"
               />
             </div>
@@ -131,7 +131,7 @@ export const CreateModuleModal: React.FC<CreateModuleModalProps> = ({ isOpen, on
                 id="status"
                 value={formData.status}
                 onChange={handleChange('status')}
-                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sage-500 focus:border-sage-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange"
               >
                 <option value="draft">Draft</option>
                 <option value="active">Active</option>

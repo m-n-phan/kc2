@@ -1,5 +1,5 @@
 import React from 'react'
-import { clsx } from 'clsx'
+import { cn } from '../utils/cn'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
 export interface KpiTileProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -30,7 +30,7 @@ export const KpiTile = React.forwardRef<HTMLDivElement, KpiTileProps>(
       return (
         <div
           ref={ref}
-          className={clsx(
+          className={cn(
             'card-base p-6 h-tile',
             'animate-pulse',
             className
@@ -47,7 +47,7 @@ export const KpiTile = React.forwardRef<HTMLDivElement, KpiTileProps>(
     return (
       <div
         ref={ref}
-        className={clsx(
+        className={cn(
           'card-base p-6 h-tile',
           'flex flex-col justify-between',
           className
@@ -60,7 +60,7 @@ export const KpiTile = React.forwardRef<HTMLDivElement, KpiTileProps>(
         </div>
         
         {change && TrendIcon && (
-          <div className={clsx('flex items-center text-sm', trendColors[trend])}>
+          <div className={cn('flex items-center text-sm', trendColors[trend])}>
             <TrendIcon 
               className="h-4 w-4 mr-1" 
               aria-label={`${trend === 'up' ? 'Increase' : trend === 'down' ? 'Decrease' : 'No change'}`}

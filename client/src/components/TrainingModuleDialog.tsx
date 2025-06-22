@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useForm } from 'react-hook-form'
 import { Button } from './Button'
-import useTrainingStore, { TrainingModule } from '../store/useTrainingStore'
+import useTrainingStore, { DraftTrainingModule } from '../store/useTrainingStore'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { nanoid } from 'nanoid'
 
@@ -52,7 +52,7 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
   const steps = ['Module Details', 'Build Steps', 'Review & Save']
 
   const onSaveDraft = (data: FormData) => {
-    const module: TrainingModule = {
+    const module: DraftTrainingModule = {
       id: nanoid(),
       title: data.title,
       description: data.description || undefined,
@@ -81,7 +81,7 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
   }
 
   const onPublish = (data: FormData) => {
-    const module: TrainingModule = {
+    const module: DraftTrainingModule = {
       id: nanoid(),
       title: data.title,
       description: data.description || undefined,

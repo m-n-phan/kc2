@@ -1,5 +1,5 @@
 import React from 'react'
-import { clsx } from 'clsx'
+import { cn } from '../utils/cn'
 
 export interface IconWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'filled'
@@ -23,7 +23,7 @@ export const IconWrapper = React.forwardRef<HTMLDivElement, IconWrapperProps>(
     return (
       <div
         ref={ref}
-        className={clsx(
+        className={cn(
           'inline-flex items-center justify-center',
           'rounded-md',
           'transition-colors duration-150',

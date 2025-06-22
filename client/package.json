@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --max-warnings 0",
     "type-check": "tsc --noEmit",
-    "test": "vitest",
+    "test": "vitest run",
     "clean": "rm -rf dist .turbo node_modules/.cache",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

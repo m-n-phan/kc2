@@ -1,5 +1,5 @@
 import React from 'react'
-import { clsx } from 'clsx'
+import { cn } from '../utils/cn'
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
@@ -39,7 +39,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         ref={ref}
         role={isInteractive ? 'button' : undefined}
         tabIndex={isInteractive ? 0 : undefined}
-        className={clsx(
+        className={cn(
           cardVariants.base,
           hover && cardVariants.hoverable,
           isInteractive ? cardVariants.interactive : cardVariants.nonInteractive,

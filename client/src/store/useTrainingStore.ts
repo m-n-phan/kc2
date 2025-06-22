@@ -17,7 +17,9 @@ export interface TrainingStep {
   blocks: (ContentBlock | QuizBlock)[]
 }
 
-export interface TrainingModule {
+// Local draft representation separate from the shared TrainingModule type in
+// `shared` to keep this store self-contained
+export interface DraftTrainingModule {
   id: string
   title: string
   description?: string
@@ -26,10 +28,10 @@ export interface TrainingModule {
 }
 
 interface TrainingStore {
-  modules: TrainingModule[]
-  draftModules: TrainingModule[]
-  addDraft: (module: TrainingModule) => void
-  updateDraft: (id: string, partial: Partial<TrainingModule>) => void
+  modules: DraftTrainingModule[]
+  draftModules: DraftTrainingModule[]
+  addDraft: (module: DraftTrainingModule) => void
+  updateDraft: (id: string, partial: Partial<DraftTrainingModule>) => void
   publish: (id: string) => void
 }
 
