@@ -8,7 +8,7 @@ interface OfflineDB extends DBSchema {
   }
   query: {
     key: string
-    value: any
+    value: unknown
   }
 }
 
@@ -16,7 +16,7 @@ export interface OfflineRequest {
   id: string
   url: string
   method: string
-  body?: any
+  body?: unknown
   headers?: Record<string, string>
 }
 
@@ -70,6 +70,7 @@ export async function syncQueuedRequests() {
       })
       await db.delete('requests', req.id)
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('Failed to sync request', err)
     }
   }

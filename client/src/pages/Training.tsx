@@ -34,6 +34,7 @@ export const Training: React.FC = () => {
       try {
         await deleteModuleMutation.mutateAsync(moduleId)
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error('Failed to delete training module:', error)
         alert('Failed to delete training module. Please try again.')
       }
