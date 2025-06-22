@@ -33,6 +33,7 @@ const mockModules = [
     },
     status: 'active' as const,
     estimatedDuration: 45,
+    enrollmentCount: 0,
     createdAt: '2024-01-15T00:00:00.000Z',
     updatedAt: '2024-01-15T00:00:00.000Z',
     creator: {
@@ -56,6 +57,7 @@ const mockModules = [
     },
     status: 'draft' as const,
     estimatedDuration: 30,
+    enrollmentCount: 0,
     createdAt: '2024-01-20T00:00:00.000Z',
     updatedAt: '2024-01-20T00:00:00.000Z',
     creator: {
@@ -79,6 +81,7 @@ const mockModules = [
     },
     status: 'active' as const,
     estimatedDuration: 20,
+    enrollmentCount: 0,
     createdAt: '2024-01-10T00:00:00.000Z',
     updatedAt: '2024-01-10T00:00:00.000Z',
     creator: {
@@ -101,6 +104,7 @@ export class MockTrainingService implements TrainingService {
       title: module.title,
       description: module.description,
       status: module.status,
+      enrollmentCount: 0,
       estimatedDuration: module.estimatedDuration,
       createdAt: module.createdAt,
       updatedAt: module.updatedAt,
