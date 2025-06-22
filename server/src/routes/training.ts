@@ -59,6 +59,10 @@ router.get('/modules/:id', async (req, res, next) => {
 
 router.post('/modules', async (req, res, next) => {
   try {
+    const validated = req.body as CreateTrainingModuleRequest & {
+      status?: string
+    }
+
     const validated = createModuleSchema.parse(req.body) as CreateTrainingModuleRequest & { status?: string }
 
     const validated =
@@ -78,6 +82,8 @@ router.post('/modules', async (req, res, next) => {
 
 router.put('/modules/:id', async (req, res, next) => {
   try {
+    const validated = req.body as UpdateTrainingModuleRequest
+
     const validated = createModuleSchema.partial().parse(req.body) as UpdateTrainingModuleRequest
 
     const validated =
