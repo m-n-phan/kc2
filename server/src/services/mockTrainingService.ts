@@ -93,7 +93,7 @@ const mockModules = [
 ]
 
 export class MockTrainingService implements TrainingService {
-  private modules = [...mockModules]
+  private modules: TrainingModule[] = [...(mockModules as TrainingModule[])]
 
   async getModules(): Promise<TrainingModuleListItem[]> {
     // Simulate API delay
@@ -119,13 +119,13 @@ export class MockTrainingService implements TrainingService {
 
   async createModule(data: CreateTrainingModuleRequest & { status?: string }): Promise<TrainingModule> {
     await new Promise(resolve => setTimeout(resolve, 400))
-    
-    const newModule = {
+    const status: TrainingStatus = (data.status ?? 'draft') as TrainingStatus
+    const newModule: TrainingModule = {
       id: (this.modules.length + 1).toString(),
       title: data.title,
       description: data.description || '',
       content: data.content,
-      status: data.status || 'draft' as const,
+      status,
       estimatedDuration: data.estimatedDuration,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -136,7 +136,7 @@ export class MockTrainingService implements TrainingService {
       }
     }
     
-    this.modules.push(newModule)
+    this.modules.push(newModule as any)
     return newModule
   }
 
@@ -146,13 +146,13 @@ export class MockTrainingService implements TrainingService {
     const moduleIndex = this.modules.findIndex(module => module.id === id)
     if (moduleIndex === -1) return null
     
-    const updatedModule = {
+    const updatedModule: TrainingModule = {
       ...this.modules[moduleIndex],
       ...data,
       updatedAt: new Date().toISOString()
     }
-    
-    this.modules[moduleIndex] = updatedModule
+
+    this.modules[moduleIndex] = updatedModule as any
     return updatedModule
   }
 
