@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import trainingRoutes from './routes/training'
 import { errorHandler } from './middleware/errorHandler'
 
+
 dotenv.config()
 
 const app = express()
