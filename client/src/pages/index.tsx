@@ -15,11 +15,13 @@ export const Checklists: React.FC = () => {
 
   const handleSubmit = (values: ChecklistFormValues) => {
     const draft = {
+
+    const draft: ChecklistDraft = {
       id: values.id,
       title: values.title,
       items: values.items,
       frequency: values.schedule,
-    } as const
+    }
     addDraft(draft)
     setCreating(false)
   }

@@ -8,6 +8,8 @@ import {
   TrainingModuleListItem,
   TrainingAssignmentWithModule,
   TrainingStatus,
+
+  TrainingStatus
 } from '@shared/types/training'
 
 // Mock data for development
