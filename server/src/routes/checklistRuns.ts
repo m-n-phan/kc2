@@ -11,7 +11,7 @@ const service: ChecklistRunService = process.env.DATABASE_URL
   ? new DbChecklistRunService()
   : new MockChecklistRunService()
 
-router.post('/:id/start', authenticate, requirePermission('checklist.edit'), async (req: AuthRequest, res, next) => {
+router.post('/:id/start', authenticate, requirePermission('checklists.edit'), async (req: AuthRequest, res, next) => {
   try {
     const result = await service.startRun(req.params.id, req.user!.id)
     res.json({ success: true, data: result })
@@ -20,7 +20,7 @@ router.post('/:id/start', authenticate, requirePermission('checklist.edit'), asy
   }
 })
 
-router.put('/runs/:id/complete', authenticate, requirePermission('checklist.edit'), async (req: AuthRequest, res, next) => {
+router.put('/runs/:id/complete', authenticate, requirePermission('checklists.edit'), async (req: AuthRequest, res, next) => {
   try {
     const result = await service.completeRun(req.params.id, req.user!.id, req.body)
     res.json({ success: true, data: result })

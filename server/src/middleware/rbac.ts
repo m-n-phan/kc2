@@ -2,8 +2,8 @@ import { Response, NextFunction } from 'express'
 import type { AuthRequest } from './auth'
 
 const rolePermissions: Record<string, string[]> = {
-  Manager: ['checklist.edit'],
-  Supervisor: ['checklist.edit'],
+  Manager: ['checklists.edit'],
+  Supervisor: ['checklists.edit'],
   Staff: []
 }
 
