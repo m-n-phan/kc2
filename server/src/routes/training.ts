@@ -5,6 +5,7 @@ import { MockTrainingService } from '../services/mockTrainingService'
 import type { TrainingService } from '../services/TrainingService'
 import type {
   CreateTrainingModuleRequest,
+
   UpdateTrainingModuleRequest,
 
   UpdateTrainingModuleRequest
