@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ChecklistForm, ChecklistFormValues } from '../components/checklists'
-import useChecklistStore, { ChecklistDraft } from '../store/useChecklistStore'
+import useChecklistStore from '../store/useChecklistStore'
 import { Button, Card } from '../components'
 
 // Page Components
@@ -9,6 +9,9 @@ export { Training } from './Training'
 export { Register } from './Register'
 export { ResetPassword } from './ResetPassword'
 
+export { Reports } from './Reports'
+export { Settings } from './Settings'
+
 // Placeholder pages for navigation
 export const Checklists: React.FC = () => {
   const [creating, setCreating] = useState(false)
@@ -16,19 +19,14 @@ export const Checklists: React.FC = () => {
   const addDraft = useChecklistStore((s) => s.addDraft)
 
   const handleSubmit = (values: ChecklistFormValues) => {
+    const draft = {
+
     const draft: ChecklistDraft = {
       id: values.id,
       title: values.title,
       items: values.items,
-      frequency: values.schedule
-    }
-
-    const draft = {
-      id: values.id,
-      title: values.title,
-      items: values.items,
       frequency: values.schedule,
-    } as const
+    }
     addDraft(draft)
     setCreating(false)
   }
@@ -60,19 +58,6 @@ export const Checklists: React.FC = () => {
   )
 }
 
-export const Reports: React.FC = () => (
-  <div className="p-8 text-center">
-    <h1 className="text-h1 text-charcoal mb-4">Reports</h1>
-    <p className="text-slate-600">Reporting dashboard coming in Chunk 4</p>
-  </div>
-)
-
-export const Settings: React.FC = () => (
-  <div className="p-8 text-center">
-    <h1 className="text-h1 text-charcoal mb-4">Settings</h1>
-    <p className="text-slate-600">Settings management coming in future chunks</p>
-  </div>
-)
 
 export const NotFound: React.FC = () => (
   <div className="p-8 text-center">

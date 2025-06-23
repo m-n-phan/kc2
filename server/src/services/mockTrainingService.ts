@@ -7,6 +7,12 @@ import {
   TrainingModule,
   TrainingModuleListItem,
   TrainingAssignmentWithModule,
+
+  TrainingStatus,
+
+
+  TrainingStatus,
+
   TrainingStatus
 } from '@shared/types/training'
 
