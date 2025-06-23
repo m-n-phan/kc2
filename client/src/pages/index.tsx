@@ -6,6 +6,9 @@ import { Button, Card } from '../components'
 // Page Components
 export { Dashboard } from './Dashboard'
 export { Training } from './Training'
+export { Register } from './Register'
+export { ResetPassword } from './ResetPassword'
+
 export { Reports } from './Reports'
 export { Settings } from './Settings'
 
