@@ -52,6 +52,18 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
 
   const steps = ['Module Details', 'Build Steps', 'Review & Save']
 
+  const formatSteps = (stepsData: FormData['steps']): TrainingStep[] =>
+    stepsData.map((s) => ({
+      id: s.id,
+      title: s.title,
+      blocks: [
+        { kind: 'text-md', md: s.content } as const,
+        ...(s.mediaUrl
+          ? [{ kind: 'media', url: s.mediaUrl, type: 'image' } as const]
+          : [])
+      ]
+    }))
+
   const onSaveDraft = (data: FormData) => {
     const module: DraftTrainingModule = {
       id: nanoid(),
@@ -62,14 +74,18 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
         title: s.title,
         blocks: [
           { kind: 'text-md', md: s.content } as const,
+
+          { kind: 'text-md', md: s.content },
           ...(s.mediaUrl
             ? [{ kind: 'media', url: s.mediaUrl, type: 'image' } as const]
             : [])
         ]
       })),
+
+      steps: formatSteps(data.steps),
       status: 'draft'
     }
-    
+
     addDraft(module)
     onOpenChange(false)
   }
@@ -84,14 +100,18 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
         title: s.title,
         blocks: [
           { kind: 'text-md', md: s.content } as const,
+
+          { kind: 'text-md', md: s.content },
           ...(s.mediaUrl
             ? [{ kind: 'media', url: s.mediaUrl, type: 'image' } as const]
             : [])
         ]
       })),
+
+      steps: formatSteps(data.steps),
       status: 'draft'
     }
-    
+
     addDraft(module)
     publish(module.id)
     onOpenChange(false)
