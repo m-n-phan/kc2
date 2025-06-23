@@ -5,6 +5,13 @@ import { MockTrainingService } from '../services/mockTrainingService'
 import type { TrainingService } from '../services/TrainingService'
 import type {
   CreateTrainingModuleRequest,
+
+
+
+
+
+  UpdateTrainingModuleRequest,
+
   UpdateTrainingModuleRequest
 } from '@shared/types/training'
 import { authenticate, authorize } from '../middleware/auth'
