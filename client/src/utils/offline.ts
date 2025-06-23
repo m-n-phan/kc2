@@ -1,4 +1,10 @@
+/* global BodyInit */
 import { openDB, type DBSchema } from 'idb'
+import type {
+  Persister,
+  PersistedClient,
+} from '@tanstack/query-persist-client-core'
+
 import type { Persister, PersistedClient } from '@tanstack/query-persist-client-core'
 
 interface OfflineDB extends DBSchema {
@@ -16,7 +22,7 @@ export interface OfflineRequest {
   id: string
   url: string
   method: string
-  body?: unknown
+  body?: BodyInit
   headers?: Record<string, string>
 }
 
