@@ -69,6 +69,17 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
       id: nanoid(),
       title: data.title,
       description: data.description || undefined,
+      steps: data.steps.map<TrainingStep>((s) => ({
+        id: s.id,
+        title: s.title,
+        blocks: [
+          { kind: 'text-md', md: s.content },
+          ...(s.mediaUrl
+            ? [{ kind: 'media', url: s.mediaUrl, type: 'image' } as const]
+            : [])
+        ]
+      })),
+
       steps: formatSteps(data.steps),
       status: 'draft'
     }
@@ -82,6 +93,17 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
       id: nanoid(),
       title: data.title,
       description: data.description || undefined,
+      steps: data.steps.map<TrainingStep>((s) => ({
+        id: s.id,
+        title: s.title,
+        blocks: [
+          { kind: 'text-md', md: s.content },
+          ...(s.mediaUrl
+            ? [{ kind: 'media', url: s.mediaUrl, type: 'image' } as const]
+            : [])
+        ]
+      })),
+
       steps: formatSteps(data.steps),
       status: 'draft'
     }

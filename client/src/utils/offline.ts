@@ -1,5 +1,5 @@
 import { openDB, type DBSchema } from 'idb'
-import type { Persister } from '@tanstack/query-persist-client-core'
+import type { Persister, PersistedClient } from '@tanstack/query-persist-client-core'
 
 interface OfflineDB extends DBSchema {
   requests: {
@@ -8,7 +8,7 @@ interface OfflineDB extends DBSchema {
   }
   query: {
     key: string
-    value: unknown
+    value: PersistedClient
   }
 }
 
@@ -66,8 +66,8 @@ export async function syncQueuedRequests() {
       await fetch(req.url, {
         method: req.method,
         headers: req.headers,
-        body: req.body,
-      })
+        body: req.body as unknown,
+      } as Parameters<typeof fetch>[1])
       await db.delete('requests', req.id)
     } catch (err) {
       // eslint-disable-next-line no-console
