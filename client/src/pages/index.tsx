@@ -6,6 +6,9 @@ import { Button, Card } from '../components'
 // Page Components
 export { Dashboard } from './Dashboard'
 export { Training } from './Training'
+export { TrainingAssignments } from './training/Assignments'
+export { TrainingModuleView } from './training/ModuleView'
+export { RunChecklist } from './checklists/RunChecklist'
 
 // Placeholder pages for navigation
 export const Checklists: React.FC = () => {
@@ -20,13 +23,6 @@ export const Checklists: React.FC = () => {
       items: values.items,
       frequency: values.schedule
     }
-
-    const draft = {
-      id: values.id,
-      title: values.title,
-      items: values.items,
-      frequency: values.schedule,
-    } as const
     addDraft(draft)
     setCreating(false)
   }
