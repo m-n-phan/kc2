@@ -6,6 +6,8 @@ import { Button, Card } from '../components'
 // Page Components
 export { Dashboard } from './Dashboard'
 export { Training } from './Training'
+export { Register } from './Register'
+export { ResetPassword } from './ResetPassword'
 
 // Placeholder pages for navigation
 export const Checklists: React.FC = () => {

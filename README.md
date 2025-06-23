@@ -45,6 +45,17 @@ The API server requires several environment variables. Create a `.env` file in t
 | `S3_SECRET_KEY` | S3 secret key | `minio123` |
 | `S3_BUCKET` | Bucket for uploads | `uploads` |
 
+Additional email/SMS integrations require:
+| Variable | Description |
+|----------|-------------|
+| `SMTP_HOST` | SMTP server host |
+| `SMTP_PORT` | SMTP port |
+| `SMTP_USER` | SMTP username |
+| `SMTP_PASS` | SMTP password |
+| `TWILIO_SID` | Twilio account SID |
+| `TWILIO_AUTH_TOKEN` | Twilio auth token |
+| `TWILIO_FROM_NUMBER` | Phone number used for sending SMS |
+
 The server will throw an error during startup if `JWT_SECRET` is not defined.
 
 Other features such as email or SMS integrations may require additional variables which will be documented alongside those features.
