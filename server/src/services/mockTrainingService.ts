@@ -7,6 +7,8 @@ import {
   TrainingModule,
   TrainingModuleListItem,
   TrainingAssignmentWithModule,
+  TrainingStatus,
+
 
 
 

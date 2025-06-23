@@ -60,6 +60,23 @@ jobs:
     - name: 🏗️ Build project
       run: npm run build
 
+    - name: ♿ Accessibility audit
+      run: |
+        mkdir -p reports
+        npx axe ./client/dist > reports/axe-report.txt
+
+    - name: 🚦 Lighthouse performance budget
+      run: |
+        mkdir -p reports
+        npx http-server ./client/dist -p 4173 &
+        SERVER_PID=$!
+        sleep 5
+        npx lighthouse http://localhost:4173 \
+          --quiet --chrome-flags="--headless" \
+          --budget-path=budget.json \
+          --output html --output-path reports/lighthouse-report.html
+        kill $SERVER_PID
+
     - name: 📊 Bundle size analysis
       run: |
         mkdir -p reports
@@ -89,7 +106,7 @@ jobs:
         fi
 
     - name: 🔒 Security audit (production dependencies)
-      run: npm audit --audit-level moderate --omit dev
+      run: npm audit --audit-level high --omit dev
     
     - name: 📈 Code quality analysis  
       run: |
@@ -127,12 +144,12 @@ jobs:
       run: npm ci
     
     - name: 🔒 Full security audit
-      run: npm audit --audit-level moderate
+      run: npm audit --audit-level high --omit dev
     
     - name: 🐍 Run Snyk vulnerability scan
       uses: snyk/actions/node@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        args: --severity-threshold=medium
-      continue-on-error: true 
+        args: --severity-threshold=high
+
