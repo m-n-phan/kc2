@@ -6,6 +6,10 @@ import { Button, Card } from '../components'
 // Page Components
 export { Dashboard } from './Dashboard'
 export { Training } from './Training'
+export { TrainingAssignments } from './training/Assignments'
+export { TrainingModuleView } from './training/ModuleView'
+export { RunChecklist } from './checklists/RunChecklist'
+
 export { Register } from './Register'
 export { ResetPassword } from './ResetPassword'
 
@@ -19,12 +23,14 @@ export const Checklists: React.FC = () => {
   const addDraft = useChecklistStore((s) => s.addDraft)
 
   const handleSubmit = (values: ChecklistFormValues) => {
+
     const draft = {
 
     const draft: ChecklistDraft = {
       id: values.id,
       title: values.title,
       items: values.items,
+      frequency: values.schedule
       frequency: values.schedule,
     }
     addDraft(draft)

@@ -4,6 +4,14 @@ import { AppLayout } from './layouts/AppLayout'
 import {
   Dashboard,
   Training,
+  TrainingAssignments,
+  TrainingModuleView,
+  Checklists,
+  RunChecklist,
+  Reports,
+  Settings,
+  NotFound
+
   Checklists,
   Reports,
   Settings,
@@ -27,13 +35,25 @@ const router = createBrowserRouter([
         path: 'training',
         element: <Training />
       },
+      {
+        path: 'training/assignments',
+        element: <TrainingAssignments />
+      },
+      {
+        path: 'training/modules/:id',
+        element: <TrainingModuleView />
+      },
       // {
-      //   path: 'training/new', 
+      //   path: 'training/new',
       //   element: <ModuleEditor />
       // }, // Removed - using modal dialog instead
       {
         path: 'checklists',
         element: <Checklists />
+      },
+      {
+        path: 'checklists/run/:id',
+        element: <RunChecklist />
       },
       {
         path: 'reports',
