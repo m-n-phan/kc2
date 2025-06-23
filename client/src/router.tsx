@@ -11,6 +11,13 @@ import {
   Reports,
   Settings,
   NotFound
+
+  Checklists,
+  Reports,
+  Settings,
+  NotFound,
+  Register,
+  ResetPassword
 } from './pages'
 // import { ModuleEditor } from './pages/training/ModuleEditor' // Removed - using modal instead
 
@@ -57,6 +64,14 @@ const router = createBrowserRouter([
         element: <Settings />
       }
     ]
+  },
+  {
+    path: '/register',
+    element: <Register />
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPassword />
   }
 ])
 
