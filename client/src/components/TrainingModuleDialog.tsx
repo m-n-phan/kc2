@@ -73,6 +73,7 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
         id: s.id,
         title: s.title,
         blocks: [
+
           { kind: 'text-md', md: s.content } as const,
 
           { kind: 'text-md', md: s.content },
@@ -99,6 +100,7 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
         id: s.id,
         title: s.title,
         blocks: [
+
           { kind: 'text-md', md: s.content } as const,
 
           { kind: 'text-md', md: s.content },

@@ -6,6 +6,7 @@ import type { TrainingService } from '../services/TrainingService'
 import type {
   CreateTrainingModuleRequest,
 
+
   UpdateTrainingModuleRequest,
 
   UpdateTrainingModuleRequest
