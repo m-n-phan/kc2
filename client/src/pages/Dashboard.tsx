@@ -1,10 +1,14 @@
 import React from 'react'
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts'
+import { format, parseISO } from 'date-fns'
 import { KpiTile } from '../components/KpiTile'
 import { Card } from '../components/Card'
 import { Badge } from '../components/Badge'
-import { TrendingUp, Users, CheckCircle, AlertTriangle, ChevronRight, BarChart3 } from 'lucide-react'
+import { TrendingUp, Users, CheckCircle, AlertTriangle, ChevronRight } from 'lucide-react'
+import { useCompletionTrends } from '../hooks/useCompletionTrends'
 
 export const Dashboard: React.FC = () => {
+  const { data: completionTrends = [], isLoading: trendsLoading } = useCompletionTrends()
   return (
     <div className="space-y-section">
       {/* Page Header */}
@@ -118,20 +122,45 @@ export const Dashboard: React.FC = () => {
         </Card>
       </div>
 
-      {/* Performance Trends */}
-      <Card className="border-dashed">
-        <div className="p-6 md:p-8">
-          <h2 className="text-h2 mb-4">Performance Trends</h2>
-          <div className="h-64 bg-slate-50 rounded-md flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-3">
-                <BarChart3 className="w-6 h-6 text-slate-400" />
-              </div>
-              <p className="text-slate-500">Chart placeholder - Coming in Chunk 3</p>
+        {/* Performance Trends */}
+        <Card className="border-dashed">
+          <div className="p-6 md:p-8">
+            <h2 className="text-h2 mb-4">Performance Trends</h2>
+            <div className="h-64 bg-slate-50 rounded-md">
+              {trendsLoading ? (
+                <div className="flex items-center justify-center h-full text-slate-500">Loading...</div>
+              ) : (
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={completionTrends} margin={{ left: 8, right: 8, top: 16, bottom: 8 }}>
+                    <defs>
+                      <linearGradient id="trendColor" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis
+                      dataKey="date"
+                      tickFormatter={d => format(parseISO(d), 'MMM')}
+                      tick={{ fontSize: 12 }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
+                    <Tooltip labelFormatter={d => format(parseISO(String(d)), 'MMM yyyy')} />
+                    <Area
+                      type="monotone"
+                      dataKey="completionRate"
+                      stroke="#0ea5e9"
+                      fill="url(#trendColor)"
+                      strokeWidth={2}
+                      activeDot={{ r: 4 }}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              )}
             </div>
           </div>
-        </div>
-      </Card>
+        </Card>
     </div>
   )
 } 
