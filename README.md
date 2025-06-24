@@ -55,6 +55,7 @@ Additional email/SMS integrations require:
 | `TWILIO_SID` | Twilio account SID |
 | `TWILIO_AUTH_TOKEN` | Twilio auth token |
 | `TWILIO_FROM_NUMBER` | Phone number used for sending SMS |
+| `TWILIO_TO_NUMBER` | destination phone number for SMS tests |
 
 The server will throw an error during startup if `JWT_SECRET` is not defined.
 
