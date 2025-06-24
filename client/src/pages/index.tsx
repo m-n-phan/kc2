@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ChecklistForm, ChecklistFormValues } from '../components/checklists'
 import useChecklistStore from '../store/useChecklistStore'
+import type { ChecklistDraft } from '../store/useChecklistStore'
 import { Button, Card } from '../components'
 
 // Page Components
@@ -24,16 +25,10 @@ export const Checklists: React.FC = () => {
   const addDraft = useChecklistStore((s) => s.addDraft)
 
   const handleSubmit = (values: ChecklistFormValues) => {
-
-
-    const draft = {
-
     const draft: ChecklistDraft = {
       id: values.id,
       title: values.title,
       items: values.items,
-
-      frequency: values.schedule
       frequency: values.schedule,
     }
     addDraft(draft)
