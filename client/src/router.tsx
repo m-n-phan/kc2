@@ -10,11 +10,6 @@ import {
   RunChecklist,
   Reports,
   Settings,
-  NotFound
-
-  Checklists,
-  Reports,
-  Settings,
   NotFound,
   Register,
   ResetPassword
