@@ -77,7 +77,7 @@ router.post('/modules', authorize('training.edit'), async (req, res, next) => {
     const validated = createModuleSchema.parse(req.body) as CreateTrainingModuleRequest & {
       status?: string
     }
-    const createdBy = (req.headers['x-user-id'] as string) || 'system'
+    const createdBy = req.user?.id || 'system'
     const module = await service.createModule(validated, createdBy)
     res.status(201).json({ success: true, data: module })
   } catch (err) {
@@ -119,7 +119,7 @@ router.delete('/modules/:id', authorize('training.edit'), async (req, res, next)
 router.post('/assign', authorize('training.edit'), async (req, res, next) => {
   try {
     const validated = assignModuleSchema.parse(req.body)
-    const assignedBy = (req.headers['x-user-id'] as string) || 'system'
+    const assignedBy = req.user?.id || 'system'
     const result = await service.assignModule(validated, assignedBy)
     res.status(201).json({ success: true, data: result })
   } catch (err) {
@@ -132,21 +132,19 @@ router.post('/assign', authorize('training.edit'), async (req, res, next) => {
 
 router.get('/assignments', authorize('training.read'), async (req, res, next) => {
   try {
-    const userId = req.headers['x-user-id'] as string
-    if (!userId) {
+    if (!req.user?.id) {
       return res.status(401).json({ success: false, error: 'User ID required' })
     }
-    const assignments = await service.getMyAssignments(userId)
+    const assignments = await service.getMyAssignments(req.user.id)
     res.json({ success: true, data: assignments })
- } catch (err) {
+  } catch (err) {
     next({ code: 500, message: (err as Error).message })
   }
 })
 
 router.put('/assignments/:id/start', authorize('training.edit'), async (req, res, next) => {
   try {
-    const userId = req.headers['x-user-id'] as string
-    const assignment = await service.startAssignment(req.params.id, userId)
+    const assignment = await service.startAssignment(req.params.id, req.user?.id || '')
     res.json({ success: true, data: assignment })
   } catch (err) {
     next({ code: 500, message: (err as Error).message })
@@ -155,8 +153,11 @@ router.put('/assignments/:id/start', authorize('training.edit'), async (req, res
 
 router.put('/assignments/:id/complete', authorize('training.edit'), async (req, res, next) => {
   try {
-    const userId = req.headers['x-user-id'] as string
-    const assignment = await service.completeAssignment(req.params.id, userId, req.body)
+    const assignment = await service.completeAssignment(
+      req.params.id,
+      req.user?.id || '',
+      req.body
+    )
     res.json({ success: true, data: assignment })
   } catch (err) {
     next({ code: 500, message: (err as Error).message })
