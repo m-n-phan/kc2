@@ -5,7 +5,6 @@ import type {
   PersistedClient,
 } from '@tanstack/query-persist-client-core'
 
-import type { Persister, PersistedClient } from '@tanstack/query-persist-client-core'
 
 interface OfflineDB extends DBSchema {
   requests: {
