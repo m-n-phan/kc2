@@ -15,6 +15,11 @@ Install all workspace dependencies from the repository root:
 npm ci
 ```
 
+The `npm ci` (or `npm install`) command requires network access to the npm registry
+unless you have cached dependencies locally. Make sure the environment can reach
+the registry or restore a local cache before running it. Scripts such as
+`npm test` depend on dev packages from the registry, including **vitest**.
+
 During development you can start both the client and server with:
 
 ```bash
