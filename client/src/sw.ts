@@ -2,6 +2,8 @@ import { precacheAndRoute } from 'workbox-precaching'
 import { clientsClaim } from 'workbox-core'
 import { syncQueuedRequests } from './utils/offline'
 
+/* global ServiceWorkerGlobalScope */
+
 declare let self: ServiceWorkerGlobalScope
 
 self.skipWaiting()
