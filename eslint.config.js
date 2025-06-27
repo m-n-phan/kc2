@@ -29,6 +29,7 @@ export default [
         ...globals.es2020,
         ...globals.node,
         ...globals.browser,
+        ...globals.serviceworker,
         React: 'readonly',
       },
     },
