@@ -15,11 +15,7 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-  argTypes: {
-    collapsed: {
-      control: { type: 'boolean' },
-    },
-  },
+  argTypes: {},
   decorators: [
     (Story) => (
       <BrowserRouter>
@@ -41,3 +37,5 @@ export const Expanded: Story = {
   },
 }
 
+
+export const Default: Story = {}
