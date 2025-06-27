@@ -8,10 +8,14 @@ export interface AppLayoutProps {
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ className }) => {
+
+
   return (
     <div className={cn('layout-shell min-h-screen bg-slate-50', className)}>
       {/* Sidebar */}
       <Sidebar />
+      
+
 
       {/* Main Content Area */}
       <div
