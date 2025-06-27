@@ -10,16 +10,11 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Navigation sidebar with collapsible functionality and route highlighting.',
+        component: 'Navigation sidebar with route highlighting.',
       },
     },
   },
   tags: ['autodocs'],
-  argTypes: {
-    collapsed: {
-      control: { type: 'boolean' },
-    },
-  },
   decorators: [
     (Story) => (
       <BrowserRouter>
@@ -34,34 +29,4 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Expanded: Story = {
-  args: {
-    collapsed: false,
-    onToggle: () => {}, // eslint-disable-line no-console
-  },
-}
-
-export const Collapsed: Story = {
-  args: {
-    collapsed: true,
-    onToggle: () => {}, // eslint-disable-line no-console
-  },
-}
-
-export const Interactive: Story = {
-  args: {
-    collapsed: false,
-    onToggle: () => {}, // eslint-disable-line no-console
-  },
-  render: function InteractiveStory(args) {
-    const [collapsed, setCollapsed] = React.useState(args.collapsed)
-    
-    return (
-      <Sidebar
-        {...args}
-        collapsed={collapsed}
-        onToggle={() => setCollapsed(!collapsed)}
-      />
-    )
-  },
-} 
+export const Default: Story = {}

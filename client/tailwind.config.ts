@@ -73,7 +73,6 @@ const config: Config = {
         'touch': '44px',
       },
       width: {
-        'sidebar-collapsed': '56px',
         'sidebar-expanded': '240px',
       },
       maxHeight: {
