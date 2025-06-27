@@ -120,9 +120,6 @@ const config: Config = {
       height: {
         'tile': '140px', 'list-item': '64px', 'touch-target': '44px'
       },
-      width: {
-        'sidebar-collapsed': '56px', 'sidebar-expanded': '240px'
-      },
       maxHeight: { 'list-scroll': '300px' }
     }
   }

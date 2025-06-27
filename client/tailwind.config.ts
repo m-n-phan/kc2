@@ -72,10 +72,6 @@ const config: Config = {
         'touch-target': '44px',
         'touch': '44px',
       },
-      width: {
-        'sidebar-collapsed': '56px',
-        'sidebar-expanded': '240px',
-      },
       maxHeight: {
         'list-scroll': '300px',
       }
