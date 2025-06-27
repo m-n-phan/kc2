@@ -58,6 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         'transition-all duration-300 ease-in-out',
         'w-60',
 
+
         'w-sidebar-expanded',
         className
       )}
