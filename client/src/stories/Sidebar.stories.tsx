@@ -30,4 +30,12 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+export const Expanded: Story = {
+  args: {
+    collapsed: false,
+    onToggle: () => {}, // eslint-disable-line no-console
+  },
+}
+
+
 export const Default: Story = {}

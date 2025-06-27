@@ -15,6 +15,8 @@ describe('Sidebar', () => {
       </Wrapper>
 
 
+  test('renders sidebar with icons and text', () => {
+
   test('renders sidebar with all navigation items', () => {
     render(
       <SidebarWrapper>
@@ -30,6 +32,9 @@ describe('Sidebar', () => {
     expect(screen.getByText('Settings')).toBeInTheDocument()
     expect(screen.getByText('Version 2.0.0')).toBeInTheDocument()
   })
+
+
+  test('calls onToggle when toggle button is clicked', () => {
 
   test('navigation links have correct href attributes', () => {
     render(
@@ -48,6 +53,8 @@ describe('Sidebar', () => {
 
     expect(screen.getByText('3')).toBeInTheDocument()
   })
+
+
 
   test('navigation links have correct href attributes', () => {
     render(
