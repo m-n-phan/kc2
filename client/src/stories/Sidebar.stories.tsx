@@ -41,27 +41,3 @@ export const Expanded: Story = {
   },
 }
 
-export const Collapsed: Story = {
-  args: {
-    collapsed: true,
-    onToggle: () => {}, // eslint-disable-line no-console
-  },
-}
-
-export const Interactive: Story = {
-  args: {
-    collapsed: false,
-    onToggle: () => {}, // eslint-disable-line no-console
-  },
-  render: function InteractiveStory(args) {
-    const [collapsed, setCollapsed] = React.useState(args.collapsed)
-    
-    return (
-      <Sidebar
-        {...args}
-        collapsed={collapsed}
-        onToggle={() => setCollapsed(!collapsed)}
-      />
-    )
-  },
-} 

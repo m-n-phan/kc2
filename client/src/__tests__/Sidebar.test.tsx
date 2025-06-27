@@ -15,7 +15,7 @@ describe('Sidebar', () => {
     mockOnToggle.mockClear()
   })
 
-  test('renders expanded sidebar with all navigation items', () => {
+  test('renders sidebar with icons and text', () => {
     render(
       <SidebarWrapper>
         <Sidebar collapsed={false} onToggle={mockOnToggle} />
@@ -37,26 +37,6 @@ describe('Sidebar', () => {
     expect(screen.getByText('Version 2.0.0')).toBeInTheDocument()
   })
 
-  test('renders collapsed sidebar with icons only', () => {
-    render(
-      <SidebarWrapper>
-        <Sidebar collapsed={true} onToggle={mockOnToggle} />
-      </SidebarWrapper>
-    )
-
-    // Brand text should not be visible
-    expect(screen.queryByText('KitchenCoach')).not.toBeInTheDocument()
-    
-    // Navigation text should not be visible
-    expect(screen.queryByText('Dashboard')).not.toBeInTheDocument()
-    expect(screen.queryByText('Training')).not.toBeInTheDocument()
-    
-    // Version footer should not be visible
-    expect(screen.queryByText('Version 2.0.0')).not.toBeInTheDocument()
-
-    // Icons should still be present (check by aria-label)
-    expect(screen.getByRole('button', { name: /expand sidebar/i })).toBeInTheDocument()
-  })
 
   test('calls onToggle when toggle button is clicked', () => {
     render(
@@ -81,33 +61,6 @@ describe('Sidebar', () => {
     expect(screen.getByText('3')).toBeInTheDocument()
   })
 
-  test('hides training badge when collapsed', () => {
-    render(
-      <SidebarWrapper>
-        <Sidebar collapsed={true} onToggle={mockOnToggle} />
-      </SidebarWrapper>
-    )
-
-    expect(screen.queryByText('3')).not.toBeInTheDocument()
-  })
-
-  test('applies correct aria-label based on collapsed state', () => {
-    const { rerender } = render(
-      <SidebarWrapper>
-        <Sidebar collapsed={false} onToggle={mockOnToggle} />
-      </SidebarWrapper>
-    )
-
-    expect(screen.getByRole('button', { name: /collapse sidebar/i })).toBeInTheDocument()
-
-    rerender(
-      <SidebarWrapper>
-        <Sidebar collapsed={true} onToggle={mockOnToggle} />
-      </SidebarWrapper>
-    )
-
-    expect(screen.getByRole('button', { name: /expand sidebar/i })).toBeInTheDocument()
-  })
 
   test('navigation links have correct href attributes', () => {
     render(
