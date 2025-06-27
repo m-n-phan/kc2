@@ -13,6 +13,13 @@ describe('Sidebar', () => {
       <Wrapper>
         <Sidebar />
       </Wrapper>
+
+
+  test('renders sidebar with all navigation items', () => {
+    render(
+      <SidebarWrapper>
+        <Sidebar />
+      </SidebarWrapper>
     )
 
     expect(screen.getByText('KitchenCoach')).toBeInTheDocument()
@@ -29,6 +36,24 @@ describe('Sidebar', () => {
       <Wrapper>
         <Sidebar />
       </Wrapper>
+
+
+
+  test('shows training badge', () => {
+    render(
+      <SidebarWrapper>
+        <Sidebar />
+      </SidebarWrapper>
+    )
+
+    expect(screen.getByText('3')).toBeInTheDocument()
+  })
+
+  test('navigation links have correct href attributes', () => {
+    render(
+      <SidebarWrapper>
+        <Sidebar />
+      </SidebarWrapper>
     )
 
     expect(screen.getByRole('link', { name: /dashboard/i })).toHaveAttribute('href', '/')
@@ -50,6 +75,28 @@ describe('Sidebar', () => {
       .getByText('KitchenCoach')
       .closest('div')
       ?.parentElement?.parentElement
+
+  test('links are focusable', () => {
+    render(
+      <SidebarWrapper>
+        <Sidebar />
+      </SidebarWrapper>
+    )
+
+    const dashboardLink = screen.getByRole('link', { name: /dashboard/i })
+    dashboardLink.focus()
+    expect(dashboardLink).toHaveFocus()
+  })
+
+  test('applies custom className when provided', () => {
+    const customClass = 'custom-sidebar'
+    const { container } = render(
+      <SidebarWrapper>
+        <Sidebar className={customClass} />
+      </SidebarWrapper>
+    )
+
+    const sidebar = container.firstChild as HTMLElement
     expect(sidebar).toHaveClass(customClass)
   })
 })
