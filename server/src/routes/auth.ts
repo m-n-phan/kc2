@@ -66,16 +66,20 @@ router.post('/reset-password', async (req, res, next) => {
   }
 })
 
-router.post('/refresh', async (req, res) => {
-  const { refreshToken } = req.body as { refreshToken?: string }
-  if (!refreshToken) {
-    return res.status(400).json({ success: false, error: 'refreshToken required' })
+router.post('/refresh', async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body as { refreshToken?: string }
+    if (!refreshToken) {
+      return res.status(400).json({ success: false, error: 'refreshToken required' })
+    }
+    const tokens = await service.refresh(refreshToken)
+    if (!tokens) {
+      return res.status(401).json({ success: false, error: 'Invalid token' })
+    }
+    res.json({ success: true, data: tokens })
+  } catch (err) {
+    next({ code: 500, message: (err as Error).message })
   }
-  const tokens = await service.refresh(refreshToken)
-  if (!tokens) {
-    return res.status(401).json({ success: false, error: 'Invalid token' })
-  }
-  res.json({ success: true, data: tokens })
 })
 
 export default router

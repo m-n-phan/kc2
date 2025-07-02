@@ -27,7 +27,7 @@ router.post('/presign', async (req, res, next) => {
       Bucket: bucket,
       Key: key,
       Conditions: [
-        ['starts-with', '$Content-Type', 'image/jpeg'],
+        ['starts-with', '$Content-Type', 'image/'],
         ['content-length-range', 0, 25 * 1024 * 1024]
       ],
       Expires: 3600
