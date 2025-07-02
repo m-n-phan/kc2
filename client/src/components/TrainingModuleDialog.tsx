@@ -30,6 +30,13 @@ export const TrainingModuleDialog: React.FC<TrainingModuleDialogProps> = ({
   const [step, setStep] = useState(1)
   const { addDraft, publish } = useTrainingStore()
 
+  // Reset step to 1 when dialog closes
+  React.useEffect(() => {
+    if (!open) {
+      setStep(1)
+    }
+  }, [open])
+
   const {
     register,
     control,
