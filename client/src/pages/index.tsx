@@ -14,6 +14,7 @@ export { RunChecklist } from './checklists/RunChecklist'
 
 export { Register } from './Register'
 export { ResetPassword } from './ResetPassword'
+export { Login } from './Login'
 
 export { Reports } from './Reports'
 export { Settings } from './Settings'

@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
+import { setAuthTokens } from '../utils/auth'
 
 const handle = async (url: string, body: unknown) => {
   const res = await fetch(url, {
@@ -15,6 +16,16 @@ export function useRegister() {
   return useMutation((data: { name: string; email: string; password: string }) =>
     handle('/auth/register', data)
   )
+}
+
+export function useLogin() {
+  return useMutation(async (data: { email: string; password: string }) => {
+    const result = await handle('/auth/login', data)
+    if (result?.data?.accessToken && result?.data?.refreshToken) {
+      setAuthTokens(result.data.accessToken, result.data.refreshToken)
+    }
+    return result
+  })
 }
 
 export function useResetPassword() {

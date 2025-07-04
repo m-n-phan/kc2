@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AppLayout } from './layouts/AppLayout'
-import { Dashboard, Training, TrainingAssignments, TrainingModuleView, Checklists, RunChecklist, Reports, Settings, NotFound, Register, ResetPassword } from './pages'
+import { Dashboard, Training, TrainingAssignments, TrainingModuleView, Checklists, RunChecklist, Reports, Settings, NotFound, Register, ResetPassword, Login } from './pages'
 // import { ModuleEditor } from './pages/training/ModuleEditor' // Removed - using modal instead
 const router = createBrowserRouter([
   {
@@ -54,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: '/reset-password',
     element: <ResetPassword />
+  },
+  {
+    path: '/login',
+    element: <Login />
   }
 ])
 
