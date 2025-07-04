@@ -15,11 +15,7 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-  argTypes: {
-    collapsed: {
-      control: { type: 'boolean' },
-    },
-  },
+  argTypes: {},
   decorators: [
     (Story) => (
       <BrowserRouter>
@@ -41,27 +37,5 @@ export const Expanded: Story = {
   },
 }
 
-export const Collapsed: Story = {
-  args: {
-    collapsed: true,
-    onToggle: () => {}, // eslint-disable-line no-console
-  },
-}
 
-export const Interactive: Story = {
-  args: {
-    collapsed: false,
-    onToggle: () => {}, // eslint-disable-line no-console
-  },
-  render: function InteractiveStory(args) {
-    const [collapsed, setCollapsed] = React.useState(args.collapsed)
-    
-    return (
-      <Sidebar
-        {...args}
-        collapsed={collapsed}
-        onToggle={() => setCollapsed(!collapsed)}
-      />
-    )
-  },
-} 
+export const Default: Story = {}
