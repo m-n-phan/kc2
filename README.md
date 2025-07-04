@@ -17,8 +17,12 @@ npm ci
 
 The `npm ci` (or `npm install`) command requires network access to the npm registry
 unless you have cached dependencies locally. Make sure the environment can reach
-the registry or restore a local cache before running it. Scripts such as
-`npm test` depend on dev packages from the registry, including **vitest**.
+the registry or restore a local cache before running it.
+
+Run `npm ci` or `npm install` before executing `npm test` or `npm run lint`. The
+**vitest** and **eslint** packages used by these scripts live inside each
+workspace's `node_modules` directory and are not available until the install step
+completes.
 
 During development you can start both the client and server with:
 
