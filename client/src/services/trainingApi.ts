@@ -7,11 +7,16 @@ import type {
   AssignTrainingModuleRequest,
   CompleteTrainingAssignmentRequest
 } from '@shared/types/training'
-import { getCurrentUserId } from '../utils/auth'
+import { getCurrentUserId, getAccessToken } from '../utils/auth'
 import { queueRequest } from '../utils/offline'
 import { nanoid } from 'nanoid'
 
 const API_BASE = '/api/v1'
+
+const authHeaders = () => {
+  const token = getAccessToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
 
 // Helper function to handle API responses
 const handleResponse = async (response: Response) => {
@@ -25,7 +30,9 @@ const handleResponse = async (response: Response) => {
 export const trainingApi = {
   // Get all training modules
   async getModules(): Promise<TrainingModuleListItem[]> {
-    const response = await fetch(`${API_BASE}/training/modules`)
+    const response = await fetch(`${API_BASE}/training/modules`, {
+      headers: authHeaders()
+    })
     const data = await handleResponse(response)
     
     // Handle both formats: direct array (mock) or wrapped response (database)
@@ -34,7 +41,9 @@ export const trainingApi = {
 
   // Get specific training module
   async getModule(id: string): Promise<TrainingModule> {
-    const response = await fetch(`${API_BASE}/training/modules/${id}`)
+    const response = await fetch(`${API_BASE}/training/modules/${id}` , {
+      headers: authHeaders()
+    })
     const data = await handleResponse(response)
     
     // Handle both formats: direct object (mock) or wrapped response (database)
@@ -48,7 +57,7 @@ export const trainingApi = {
         id: nanoid(),
         url: `${API_BASE}/training/modules`,
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
         body: JSON.stringify(moduleData),
       })
       // Return minimal placeholder until synced
@@ -59,6 +68,7 @@ export const trainingApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...authHeaders()
       },
       body: JSON.stringify(moduleData),
     })
@@ -75,7 +85,7 @@ export const trainingApi = {
         id: nanoid(),
         url: `${API_BASE}/training/modules/${id}`,
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
         body: JSON.stringify(moduleData),
       })
       return moduleData as unknown as TrainingModule
@@ -85,6 +95,7 @@ export const trainingApi = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        ...authHeaders()
       },
       body: JSON.stringify(moduleData),
     })
@@ -101,12 +112,14 @@ export const trainingApi = {
         id: nanoid(),
         url: `${API_BASE}/training/modules/${id}`,
         method: 'DELETE',
+        headers: authHeaders()
       })
       return
     }
 
     const response = await fetch(`${API_BASE}/training/modules/${id}`, {
       method: 'DELETE',
+      headers: authHeaders()
     })
     
     if (!response.ok) {
@@ -125,6 +138,7 @@ export const trainingApi = {
     const response = await fetch(`${API_BASE}/training/assignments`, {
       headers: {
         'x-user-id': getCurrentUserId(),
+        ...authHeaders()
       },
     })
     const data = await handleResponse(response)
@@ -143,6 +157,7 @@ export const trainingApi = {
         headers: {
           'Content-Type': 'application/json',
           'x-user-id': getCurrentUserId(),
+          ...authHeaders()
         },
         body: JSON.stringify(assignmentData),
       })
@@ -154,6 +169,7 @@ export const trainingApi = {
       headers: {
         'Content-Type': 'application/json',
         'x-user-id': getCurrentUserId(),
+        ...authHeaders()
       },
       body: JSON.stringify(assignmentData),
     })
@@ -170,7 +186,7 @@ export const trainingApi = {
         id: nanoid(),
         url: `${API_BASE}/training/assignments/${assignmentId}/start`,
         method: 'PUT',
-        headers: { 'x-user-id': getCurrentUserId() },
+        headers: { 'x-user-id': getCurrentUserId(), ...authHeaders() },
       })
       return
     }
@@ -179,6 +195,7 @@ export const trainingApi = {
       method: 'PUT',
       headers: {
         'x-user-id': getCurrentUserId(),
+        ...authHeaders()
       },
     })
     const data = await handleResponse(response)
@@ -200,6 +217,7 @@ export const trainingApi = {
         headers: {
           'Content-Type': 'application/json',
           'x-user-id': getCurrentUserId(),
+          ...authHeaders()
         },
         body: JSON.stringify(completionData),
       })
@@ -211,6 +229,7 @@ export const trainingApi = {
       headers: {
         'Content-Type': 'application/json',
         'x-user-id': getCurrentUserId(),
+        ...authHeaders()
       },
       body: JSON.stringify(completionData),
     })

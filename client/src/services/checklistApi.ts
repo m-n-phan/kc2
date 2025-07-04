@@ -1,8 +1,13 @@
 import { nanoid } from 'nanoid'
-import { getCurrentUserId } from '../utils/auth'
+import { getCurrentUserId, getAccessToken } from '../utils/auth'
 import { queueRequest } from '../utils/offline'
 
 const API_BASE = '/api/v1'
+
+const authHeaders = () => {
+  const token = getAccessToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
 
 const handleResponse = async (response: Response) => {
   if (!response.ok) {
@@ -19,13 +24,13 @@ export const checklistApi = {
         id: nanoid(),
         url: `${API_BASE}/checklists/${checklistId}/start`,
         method: 'POST',
-        headers: { 'x-user-id': getCurrentUserId() }
+        headers: { 'x-user-id': getCurrentUserId(), ...authHeaders() }
       })
       return
     }
     const response = await fetch(`${API_BASE}/checklists/${checklistId}/start`, {
       method: 'POST',
-      headers: { 'x-user-id': getCurrentUserId() }
+      headers: { 'x-user-id': getCurrentUserId(), ...authHeaders() }
     })
     const data = await handleResponse(response)
     return data.data || data
@@ -37,7 +42,7 @@ export const checklistApi = {
         id: nanoid(),
         url: `${API_BASE}/checklists/runs/${runId}/complete`,
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'x-user-id': getCurrentUserId() },
+        headers: { 'Content-Type': 'application/json', 'x-user-id': getCurrentUserId(), ...authHeaders() },
         body: JSON.stringify({ notes })
       })
       return
@@ -45,7 +50,7 @@ export const checklistApi = {
 
     const response = await fetch(`${API_BASE}/checklists/runs/${runId}/complete`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'x-user-id': getCurrentUserId() },
+      headers: { 'Content-Type': 'application/json', 'x-user-id': getCurrentUserId(), ...authHeaders() },
       body: JSON.stringify({ notes })
     })
     const data = await handleResponse(response)
