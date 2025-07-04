@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import { z } from 'zod'
+import { auth } from '../betterAuth'
 import { DbAuthService } from '../services/dbAuthService'
-import type { AuthService } from '../services/AuthService'
 
 const router = Router()
-const service: AuthService = new DbAuthService()
+const service = new DbAuthService()
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -24,11 +24,8 @@ const resetSchema = z.object({
 router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = loginSchema.parse(req.body)
-    const tokens = await service.login(email, password)
-    if (!tokens) {
-      return res.status(401).json({ success: false, error: 'Invalid credentials' })
-    }
-    res.json({ success: true, data: tokens })
+    const data = await auth.api.signInEmail({ body: { email, password } })
+    res.json({ success: true, data })
   } catch (err) {
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
@@ -40,11 +37,8 @@ router.post('/login', async (req, res, next) => {
 router.post('/register', async (req, res, next) => {
   try {
     const { name, email, password } = registerSchema.parse(req.body)
-    const tokens = await service.register(name, email, password)
-    if (!tokens) {
-      return res.status(409).json({ success: false, error: 'Email already in use' })
-    }
-    res.status(201).json({ success: true, data: tokens })
+    const data = await auth.api.signUpEmail({ body: { name, email, password } })
+    res.status(201).json({ success: true, data })
   } catch (err) {
     if (err instanceof z.ZodError) {
       return res.status(400).json({ success: false, error: 'Validation failed', details: err.errors })
@@ -71,11 +65,12 @@ router.post('/refresh', async (req, res) => {
   if (!refreshToken) {
     return res.status(400).json({ success: false, error: 'refreshToken required' })
   }
-  const tokens = await service.refresh(refreshToken)
-  if (!tokens) {
-    return res.status(401).json({ success: false, error: 'Invalid token' })
+  try {
+    const data = await auth.api.refreshToken({ body: { refreshToken } })
+    res.json({ success: true, data })
+  } catch {
+    res.status(401).json({ success: false, error: 'Invalid token' })
   }
-  res.json({ success: true, data: tokens })
 })
 
 export default router

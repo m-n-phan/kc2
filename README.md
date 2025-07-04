@@ -115,3 +115,9 @@ with `docker compose down` when finished.
 ## Design System
 
 Details about the component library and design system can be found in [`client/src/components/README.md`](client/src/components/README.md).
+
+## Authentication
+
+The project uses **Better Auth** for handling user accounts. The client provides
+a `/login` page that posts credentials using Better Auth's React client.
+Server routes leverage Better Auth APIs for login, registration and token refresh.
