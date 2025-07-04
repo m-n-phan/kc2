@@ -39,7 +39,8 @@
     "recharts": "^2.8.0",
     "tailwind-merge": "^2.1.0",
     "zod": "^3.22.4",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "better-auth": "^1.2.10"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.6",
