@@ -13,15 +13,6 @@ describe('Sidebar', () => {
       <Wrapper>
         <Sidebar />
       </Wrapper>
-
-
-  test('renders sidebar with icons and text', () => {
-
-  test('renders sidebar with all navigation items', () => {
-    render(
-      <SidebarWrapper>
-        <Sidebar />
-      </SidebarWrapper>
     )
 
     expect(screen.getByText('KitchenCoach')).toBeInTheDocument()
@@ -33,34 +24,11 @@ describe('Sidebar', () => {
     expect(screen.getByText('Version 2.0.0')).toBeInTheDocument()
   })
 
-
-  test('calls onToggle when toggle button is clicked', () => {
-
   test('navigation links have correct href attributes', () => {
     render(
       <Wrapper>
         <Sidebar />
       </Wrapper>
-
-
-
-  test('shows training badge', () => {
-    render(
-      <SidebarWrapper>
-        <Sidebar />
-      </SidebarWrapper>
-    )
-
-    expect(screen.getByText('3')).toBeInTheDocument()
-  })
-
-
-
-  test('navigation links have correct href attributes', () => {
-    render(
-      <SidebarWrapper>
-        <Sidebar />
-      </SidebarWrapper>
     )
 
     expect(screen.getByRole('link', { name: /dashboard/i })).toHaveAttribute('href', '/')
@@ -70,24 +38,21 @@ describe('Sidebar', () => {
     expect(screen.getByRole('link', { name: /settings/i })).toHaveAttribute('href', '/settings')
   })
 
-  test('applies custom className when provided', () => {
-    const customClass = 'custom-sidebar'
+  test('shows training badge', () => {
     render(
       <Wrapper>
-        <Sidebar className={customClass} />
+        <Sidebar />
       </Wrapper>
     )
 
-    const sidebar = screen
-      .getByText('KitchenCoach')
-      .closest('div')
-      ?.parentElement?.parentElement
+    expect(screen.getByText('3')).toBeInTheDocument()
+  })
 
   test('links are focusable', () => {
     render(
-      <SidebarWrapper>
+      <Wrapper>
         <Sidebar />
-      </SidebarWrapper>
+      </Wrapper>
     )
 
     const dashboardLink = screen.getByRole('link', { name: /dashboard/i })
@@ -98,9 +63,9 @@ describe('Sidebar', () => {
   test('applies custom className when provided', () => {
     const customClass = 'custom-sidebar'
     const { container } = render(
-      <SidebarWrapper>
+      <Wrapper>
         <Sidebar className={customClass} />
-      </SidebarWrapper>
+      </Wrapper>
     )
 
     const sidebar = container.firstChild as HTMLElement

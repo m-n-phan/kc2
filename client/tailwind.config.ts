@@ -46,9 +46,13 @@ const config: Config = {
         '4': '16px',  // 16pt
         '6': '24px',  // 24pt
         '8': '32px',  // 32pt
+        'sidebar': '15rem',
         'section': '24px',  // Standard section spacing
         'brand-gap': '8px',  // Logo to text spacing
         'wizard-gap': '24px',  // Wizard step spacing
+      },
+      width: {
+        sidebar: '15rem',
       },
       boxShadow: {
         'focus': '0 0 0 2px #3B82F6',

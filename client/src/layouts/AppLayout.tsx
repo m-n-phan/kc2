@@ -21,7 +21,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ className }) => {
       <div
         className={cn(
           'transition-all duration-300 ease-in-out min-h-screen',
-          'ml-60'
+          'ml-sidebar'
         )}
       >
         {/* Header */}

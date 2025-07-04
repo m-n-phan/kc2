@@ -10,7 +10,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Navigation sidebar with collapsible functionality and route highlighting.',
+        component: 'Navigation sidebar with route highlighting.',
       },
     },
   },
@@ -29,13 +29,5 @@ const meta = {
 
 export default meta
 type Story = StoryObj<typeof meta>
-
-export const Expanded: Story = {
-  args: {
-    collapsed: false,
-    onToggle: () => {}, // eslint-disable-line no-console
-  },
-}
-
 
 export const Default: Story = {}

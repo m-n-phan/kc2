@@ -56,16 +56,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       className={cn(
         'fixed left-0 top-0 h-full bg-white border-r border-slate-200 z-40',
         'transition-all duration-300 ease-in-out',
-        'w-60',
-
-
-        'w-sidebar-expanded',
+        'w-sidebar',
         className
       )}
     >
       {/* Header */}
-      <div className="h-16 flex items-center border-b border-slate-200 justify-between px-4">
-
       <div className="h-16 flex items-center border-b border-slate-200 px-4 justify-between">
         <div className="flex items-center gap-brand-gap">
           <div className="w-6 h-6 bg-primary rounded-lg flex items-center justify-center">
