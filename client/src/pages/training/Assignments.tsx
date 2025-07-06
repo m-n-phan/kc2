@@ -1,9 +1,11 @@
 import React from 'react'
 import { Button, Card } from '../../components'
 import { useTrainingAssignments, useStartTrainingAssignment, useCompleteTrainingAssignment } from '../../hooks/useTrainingModules'
+import type { TrainingAssignmentWithModule } from '@shared/types/training'
 
 export const TrainingAssignments: React.FC = () => {
-  const { data: assignments = [] } = useTrainingAssignments()
+  const { data: assignments = [] }: { data?: TrainingAssignmentWithModule[] } =
+    useTrainingAssignments()
   const startMutation = useStartTrainingAssignment()
   const completeMutation = useCompleteTrainingAssignment()
 
