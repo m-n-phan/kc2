@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom'
+import 'fake-indexeddb/auto'
 import { cleanup } from '@testing-library/react'
 import { afterEach, expect, vi } from 'vitest'
 import * as matchers from '@testing-library/jest-dom/matchers'
