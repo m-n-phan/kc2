@@ -13,9 +13,13 @@ import { nanoid } from 'nanoid'
 
 const API_BASE = '/api/v1'
 
-const authHeaders = () => {
+const authHeaders = (): Record<string, string> => {
+  const headers: Record<string, string> = {}
   const token = getAccessToken()
-  return token ? { Authorization: `Bearer ${token}` } : {}
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+  return headers
 }
 
 // Helper function to handle API responses
