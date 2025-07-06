@@ -60,16 +60,6 @@ router.post('/reset-password', async (req, res, next) => {
   }
 })
 
-router.post('/refresh', async (req, res) => {
-  const { refreshToken } = req.body as { refreshToken?: string }
-  if (!refreshToken) {
-    return res.status(400).json({ success: false, error: 'refreshToken required' })
-  }
-  try {
-    const data = await auth.api.refreshToken({ body: { refreshToken } })
-    res.json({ success: true, data })
-  } catch {
-    res.status(401).json({ success: false, error: 'Invalid token' })
 
 router.post('/refresh', async (req, res, next) => {
   try {
