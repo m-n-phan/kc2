@@ -2,6 +2,7 @@ import '@testing-library/jest-dom'
 import { cleanup } from '@testing-library/react'
 import { afterEach, expect, vi } from 'vitest'
 import * as matchers from '@testing-library/jest-dom/matchers'
+import 'fake-indexeddb/auto'
 
 // Extend Vitest's expect with Testing Library matchers
 expect.extend(matchers)
@@ -10,6 +11,8 @@ expect.extend(matchers)
 afterEach(() => {
   cleanup()
 })
+
+// fake-indexeddb polyfill provides IDB APIs in Node environment
 
 // @ts-ignore - Mock for testing
 global.ResizeObserver = class ResizeObserver {
