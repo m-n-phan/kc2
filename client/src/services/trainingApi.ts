@@ -3,7 +3,7 @@ import type {
   TrainingModule,
   CreateTrainingModuleRequest,
   UpdateTrainingModuleRequest,
-  TrainingAssignment,
+  TrainingAssignmentWithModule,
   AssignTrainingModuleRequest,
   CompleteTrainingAssignmentRequest
 } from '@shared/types/training'
@@ -134,7 +134,7 @@ export const trainingApi = {
   },
 
   // Get user's training assignments
-  async getMyAssignments(): Promise<TrainingAssignment[]> {
+  async getMyAssignments(): Promise<TrainingAssignmentWithModule[]> {
     const response = await fetch(`${API_BASE}/training/assignments`, {
       headers: {
         'x-user-id': getCurrentUserId(),
