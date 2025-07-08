@@ -1,4 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
+
+
 import { authClient } from '../lib/auth-client'
 
 const handle = async (url: string, body: unknown) => {
@@ -17,6 +19,7 @@ export function useRegister() {
     authClient.signUp.email(data)
   )
 }
+
 
 export function useResetPassword() {
   return useMutation((data: { email: string }) => handle('/auth/reset-password', data))

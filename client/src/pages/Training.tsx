@@ -8,7 +8,7 @@ import { BookOpen, Plus, AlertCircle, Loader2 } from 'lucide-react'
 import { useTrainingModules, useDeleteTrainingModule } from '../hooks/useTrainingModules'
 
 export const Training: React.FC = () => {
-  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [showModuleDialog, setShowModuleDialog] = useState(false)
   
   const { 
     data: modules = [], 
@@ -25,8 +25,8 @@ export const Training: React.FC = () => {
     navigate(`/training/modules/${moduleId}`)
   }
 
-  const handleEditModule = (moduleId: string) => {
-    navigate(`/training/modules/${moduleId}/edit`)
+  const handleEditModule = (_moduleId: string) => {
+    setShowModuleDialog(true)
   }
 
   const handleDeleteModule = async (moduleId: string) => {
@@ -42,7 +42,7 @@ export const Training: React.FC = () => {
   }
 
   const handleCreateModule = () => {
-    setShowCreateModal(true)
+    setShowModuleDialog(true)
   }
 
   return (
@@ -145,10 +145,10 @@ export const Training: React.FC = () => {
         </Card>
       )}
 
-      {/* Create Module Dialog */}
-      <TrainingModuleDialog 
-        open={showCreateModal}
-        onOpenChange={setShowCreateModal}
+      {/* Module Dialog */}
+      <TrainingModuleDialog
+        open={showModuleDialog}
+        onOpenChange={setShowModuleDialog}
       />
     </div>
   )
