@@ -1,6 +1,6 @@
 # KitchenCoach 2.0 Monorepo
 
-This repository contains the web client, server API and shared utilities for the KitchenCoach 2.0 platform. KitchenCoach 2.0 is a restaurant training, safety, and compliance platform delivered as a responsive web application and iPad PWA.
+This repository contains the web client, server API, React Native mobile app and shared utilities for the KitchenCoach 2.0 platform. KitchenCoach 2.0 is a restaurant training, safety, and compliance platform delivered as a responsive web application, iPad PWA and mobile app.
 
 ## Prerequisites
 
@@ -20,10 +20,11 @@ unless you have cached dependencies locally. Make sure the environment can reach
 the registry or restore a local cache before running it. Scripts such as
 `npm test` depend on dev packages from the registry, including **vitest**.
 
-During development you can start both the client and server with:
+During development you can start the client, server, and mobile app with:
 
 ```bash
 npm run dev
+npm run dev:mobile  # Starts the React Native app
 ```
 
 After installing, you can run linting and tests from the repository root:
@@ -66,7 +67,7 @@ The server will throw an error during startup if `JWT_SECRET` is not defined.
 
 Other features such as email or SMS integrations may require additional variables which will be documented alongside those features.
 
-To run the client or server individually, use `npm run dev:client` or `npm run dev:server`.
+To run the applications individually, use `npm run dev:client`, `npm run dev:server`, or `npm run dev:mobile`.
 
 Build both applications for production:
 
@@ -93,9 +94,10 @@ The root `package.json` exposes several scripts:
 | Script | Description |
 | --- | --- |
 | `dev` | Starts client and server concurrently. |
-| `build` | Builds the client and server applications. |
+| `dev:mobile` | Starts the React Native mobile app. |
+| `build` | Builds the client, server and mobile applications. |
 | `test` | Runs tests for all workspaces. |
-| `lint` | Runs ESLint for the client and server. |
+| `lint` | Runs ESLint for the client, server and mobile app. |
 
 See `package.json` for additional scripts such as `dev:client`, `dev:server`, and more.
 

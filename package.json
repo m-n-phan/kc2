@@ -7,23 +7,26 @@
   "workspaces": [
     "client",
     "server",
-    "shared"
+    "shared",
+    "mobile"
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:mobile": "npm run start --workspace=mobile",
     "dev:client": "npm run dev --workspace=client",
     "dev:server": "npm run dev --workspace=server",
-    "build": "npm run build --workspace=shared && npm run build --workspace=client && npm run build --workspace=server",
+    "build": "npm run build --workspace=shared && npm run build --workspace=client && npm run build --workspace=server && npm run build --workspace=mobile",
     "build:client": "npm run build --workspace=client",
     "build:server": "npm run build --workspace=server",
-    "test": "npm run test --workspace=client && npm run test --workspace=server",
+    "build:mobile": "npm run build --workspace=mobile",
+    "test": "npm run test --workspace=client && npm run test --workspace=server && npm run test --workspace=mobile",
     "test:coverage": "npm run test -- --coverage --workspace=client",
-    "lint": "npm run lint --workspace=client && npm run lint --workspace=server",
-    "lint:fix": "npm run lint -- --fix --workspace=client && npm run lint -- --fix --workspace=server",
-    "type-check": "npm run type-check --workspace=client && npm run type-check --workspace=server",
+    "lint": "npm run lint --workspace=client && npm run lint --workspace=server && npm run lint --workspace=mobile",
+    "lint:fix": "npm run lint -- --fix --workspace=client && npm run lint -- --fix --workspace=server && npm run lint -- --fix --workspace=mobile",
+    "type-check": "npm run type-check --workspace=client && npm run type-check --workspace=server && npm run type-check --workspace=mobile",
     "quality-check": "npm run lint && npm run type-check && npm run test && npm run audit:prod",
     "audit:prod": "npm audit --audit-level moderate --omit dev",
-    "clean": "npm run clean --workspace=client && npm run clean --workspace=server && rm -rf reports/",
+    "clean": "npm run clean --workspace=client && npm run clean --workspace=server && npm run clean --workspace=mobile && rm -rf reports/",
     "fresh-install": "npm run clean && rm -rf node_modules */node_modules && npm ci",
     "build-storybook": "npm run build-storybook --workspace=client"
   },
